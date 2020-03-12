@@ -1,0 +1,15 @@
+---
+title: "Welcome!"
+---
+
+<figure>
+<img src="./images/ong.jpg" alt="Ong" align="left" hspace="20" style="width:100px;height:120px;">
+</figure>
+ 
+I am currently a student at Appalachian State pursuing a Bachelor of Mathematics with a concentration in statistics. My expected graduation date is August 2020. 
+
+
+This website was last rendered on `r format(Sys.time(), "%A, %B %d, %Y - %X.")`
+
+
+* * *

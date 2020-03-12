@@ -1,0 +1,29 @@
+name: "my-website"
+output_dir: "."
+
+navbar:
+  title: "Jefferson Ong"
+  left:
+  
+    - text: "About"
+      href: About.html
+      
+    - text: "Resume"
+      href: Resume.html
+      
+    - text: "Research"
+      href: Research.html
+      
+    - text: "Resources"
+      href: Resources.html
+      
+  right:
+    - text: ""
+      icon: fa-github fa-lg
+      href: https://github.com/ongjk/ongjk.github.io
+
+output:
+  html_document:
+    theme: journal
+    highlight: zenburn
+
