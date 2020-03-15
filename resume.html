@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -54,9 +54,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -70,7 +68,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -175,8 +172,6 @@ $(document).ready(function () {
 });
 </script>
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
 
 <style type="text/css">
@@ -221,6 +216,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -233,20 +229,17 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -264,7 +257,10 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="resume.html">Resume</a>
+  <a href="About.html">About</a>
+</li>
+<li>
+  <a href="Resume.html">Resume</a>
 </li>
 <li>
   <a href="Research.html">Research</a>
@@ -308,6 +304,28 @@ $(document).ready(function () {
 <p>03/17—05/18: <strong>Honor Society</strong>, <em>Phi Theta Kappa</em>– Fayetteville, NC International honor society of two-year colleges and academic programs.</p>
 <p>02/12—06/15: <strong>Chess Club President</strong>, <em>Pine Forest Chess Club</em> – Fayetteville, NC Advertising and event management of chess club events. Teaching new members rules and strategy of chess.</p>
 </div>
+<div id="page-length-testing" class="section level2">
+<h2>Page length testing</h2>
+<p>R version 3.5.2 (2018-12-20) – “Eggshell Igloo” Copyright (C) 2018 The R Foundation for Statistical Computing Platform: x86_64-redhat-linux-gnu (64-bit)</p>
+<p>R is free software and comes with ABSOLUTELY NO WARRANTY. You are welcome to redistribute it under certain conditions. Type ‘license()’ or ‘licence()’ for distribution details.</p>
+<p>Natural language support but running in an English locale</p>
+<p>R is a collaborative project with many contributors. Type ‘contributors()’ for more information and ‘citation()’ on how to cite R or R packages in publications.</p>
+<p>Type ‘demo()’ for some demos, ‘help()’ for on-line help, or ‘help.start()’ for an HTML browser interface to help. Type ‘q()’ to quit R.</p>
+<p>R version 3.5.2 (2018-12-20) – “Eggshell Igloo” Copyright (C) 2018 The R Foundation for Statistical Computing Platform: x86_64-redhat-linux-gnu (64-bit)</p>
+<p>R is free software and comes with ABSOLUTELY NO WARRANTY. You are welcome to redistribute it under certain conditions. Type ‘license()’ or ‘licence()’ for distribution details.</p>
+<p>Natural language support but running in an English locale</p>
+<p>R is a collaborative project with many contributors. Type ‘contributors()’ for more information and ‘citation()’ on how to cite R or R packages in publications.</p>
+<p>Type ‘demo()’ for some demos, ‘help()’ for on-line help, or ‘help.start()’ for an HTML browser interface to help. Type ‘q()’ to quit R.</p>
+<p>R version 3.5.2 (2018-12-20) – “Eggshell Igloo” Copyright (C) 2018 The R Foundation for Statistical Computing Platform: x86_64-redhat-linux-gnu (64-bit)</p>
+<p>R is free software and comes with ABSOLUTELY NO WARRANTY. You are welcome to redistribute it under certain conditions. Type ‘license()’ or ‘licence()’ for distribution details.</p>
+<p>Natural language support but running in an English locale</p>
+<p>R is a collaborative project with many contributors. Type ‘contributors()’ for more information and ‘citation()’ on how to cite R or R packages in publications.</p>
+<p>Type ‘demo()’ for some demos, ‘help()’ for on-line help, or ‘help.start()’ for an HTML browser interface to help. Type ‘q()’ to quit R.</p>
+</div>
+<div id="latex-testing" class="section level2">
+<h2>latex testing</h2>
+<p><span class="math display">\[\sin(x) = \frac{3}{4}\]</span></p>
+</div>
 
 
 
@@ -326,6 +344,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
