@@ -14,8 +14,6 @@ navbar:
     - text: "Research"
       href: Research.html
       
-    - text: "Resources"
-      href: Resources.html
       
   right:
     - text: ""
