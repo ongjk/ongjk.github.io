@@ -3,7 +3,7 @@ title: "Welcome!"
 ---
 
 <figure>
-<img src="./images/ong.png" alt="Ong" align="left" hspace="20" style="width:100px;height:120px;">
+<img src="./images/Ongpng.png" alt="Ong" align="left" hspace="20" style="width:120px;height:120px;">
 </figure>
  
 Test 1
