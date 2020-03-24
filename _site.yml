@@ -9,13 +9,13 @@ navbar:
       href: About.html
       
     - text: "resume"
-      href: Resume.html
+      href: resume.html
       
     - text: "Research"
       href: Research.html
       
     - text: "Resources"
-      href: Resource.html
+      href: Resources.html
       
   right:
     - text: ""
