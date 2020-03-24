@@ -8,13 +8,13 @@ navbar:
     - text: "About"
       href: About.html
       
-    - text: "Resume"
+    - text: "resume"
       href: Resume.html
       
     - text: "Research"
       href: Research.html
       
-    - text: "Resource"
+    - text: "Resources"
       href: Resource.html
       
   right:
