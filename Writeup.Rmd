@@ -1,0 +1,318 @@
+---
+title: "Divorce Predictors Data Set"
+author: "Jefferson Ong"
+date: '`r format(Sys.time(), "%B %d, %Y")`'
+bibliography:
+- ./divorceText.bib
+- ./packages.bib
+output:
+  bookdown::html_document2:
+    highlight: textmate
+    theme: yeti
+---
+
+```{r, label = "setup", echo = FALSE, results= 'hide', message = FALSE, warning = FALSE}
+# Parallel Processing #### Will only work if you have 12 cores
+library(doMC)
+registerDoMC(cores = 12)
+#########################
+library(knitr)
+library(car)
+library(tidyverse)
+library(caret)
+library(readxl)
+knitr::opts_chunk$set(comment = NA, fig.align = 'center', fig.height = 5, fig.width = 5, prompt = FALSE, highlight = TRUE, tidy = FALSE, warning = FALSE, message = FALSE, tidy.opts=list(blank = TRUE, width.cutoff = 80))
+knitr::opts_chunk$set(eval = TRUE, echo = F)
+```
+
+```{r}
+divorce <- read_xlsx("divorce.xlsx")
+divorce$Class <- as.factor(as.character(divorce$Class))
+```
+
+
+
+# Introduction {#introduction}
+
+
+A study done in Turkey attempts to answer what are the important questions that will lead to a divorce. The dataset can be found in the [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Divorce+Predictors+data+set#). @UCIMachineLearning The paper itself can be found [here](http://dergipark.org.tr/en/pub/nevsosbilen/issue/46568/549416). They used a questionnaire base on Gottman's approach to couples therapy. It consist of 54 different statements related to marriage such as "I enjoy our holidays with my wife." or "I'm not the one who's wrong about problems at home.". Participants are asked to rate their response as an integer from 0 to 5, presumably 0 for strongly agree and 5 for strongly disagree. They are also classified as either married or divorced, where 0 corresponds to married and 1 corresponds to divorce. @yontemDIVORCEPREDICTIONUSING2019
+
+We will attempt attempt to verify the model accuracy as well as which predictors are significant to discerning whether someone is divorced or not. We will primarily look into the random forest model and use mean decrease inpurity as our metric of importance. Going further we will look at which predictors aren't important in discerning divorce vs. married. 
+
+
+# Methods {#methods}
+
+## Data Collection
+
+The data was taken at the UCI machine learning repository here: 
+[https://archive.ics.uci.edu/ml/machine-learning-databases/00497/](https://archive.ics.uci.edu/ml/machine-learning-databases/00497/)
+
+During this time, `r format(Sys.time(), "%B %d, %Y")`, using the `R` programming language. The machine learning repository needed further citation on the paper. From what it seems, it is indeed the correct paper and dataset as I was able to reproduce most of the code. The researchers conducted face to face interviews and google drive forms to administer the questionnaire. It has no missing values. 
+
+
+## Exploratory Analysis
+
+Exploratory Analysis was performed using contingency tables, faceted line graphs, and scatterplots of correlations of the data in tidy format. The data is evenly split between married and divorce, with 84 participants divorced and 86 married. Further statistic is provided in the paper, with 74 participants married for love and 96 were arrange marriage. Only the first claim could be verified. 
+
+```{r, echo = F, results='hide'}
+tidy_divorce <- divorce %>%
+    gather(key, value, -Class)
+# Overall agreement with all questions varied by class
+means <- tidy_divorce %>%
+    group_by(Class) %>%
+    summarize(value = mean(value, na.rm = TRUE))
+tidy_divorce %>%
+    count(value)
+```
+
+Going further with the data, the mean response value for those that are married is `r round(means$value[1],2)` while those that are divorced is `r round(means$value[2],2)`. Participant response is heavily weighted to 0, strongly agree. 
+
+
+
+
+
+    
+
+## Statistical Modeling
+
+A simple logistic regression with predictor `Class` and the rest as the response was done. Showing none as a significant predictor. This is using the `glm` model with a family of binomial distribution. We, then started to use training, test/validation sets. Using the `caret` package to build a random forest model with bootstrap resampling. @arnholtChapterStackOverflow
+
+
+```{r}
+# Build a simple logistic regression model
+simple_glm <- glm(Class ~ .,
+            family = "binomial",
+           data = divorce)
+
+# Print the summary of the model
+#summary(simple_glm)
+```
+
+
+
+## Reproducibility
+
+All analysis used in this paper can be reproduced by using the original dataset with RStudio. The `R` packages use were `randomForest`[@cutlerRandomForestBreimanCutler2018], `caret` [@kuhnCaretPackage], `Yardstick` [@kuhnYardstickTidyCharacterizations2020], `readxl` [@ReadxlPackageDocumentation], `tidyverse` [@wickhamTidyverseEasilyInstall2019]. These libraries must be loaded for the code to work.
+
+# Results {#results}
+
+```{r}
+library(caret)
+# Split the data into training and validation/test sets
+set.seed(1234)
+in_train <- createDataPartition(divorce$Class, 
+                                p = 0.60, 
+                                list = FALSE)
+training <- divorce[c(in_train), ]
+validation_test <- divorce[-in_train, ]
+
+# Split the validation and test sets
+set.seed(1234)
+in_test <- createDataPartition(validation_test$Class, 
+                               p = 0.50, list = FALSE)
+testing <- validation_test[c(in_test), ]
+validation <- validation_test[-in_test, ]
+```
+
+
+
+
+The data partitioning percentage for the training is 60% and 40% validation/test set. The validation and testing set was partitioned evenly. This is our `glm` model using bootstrap resampling. 
+
+
+
+```{r, warning = F}
+# Build a logistic regression model
+stack_glm <- train(Class ~ ., 
+                   method = "glm", 
+                   family = "binomial",
+                   data = training,
+                   trControl = trainControl(method = "boot"))
+
+# Print the model object 
+stack_glm
+```
+
+```{r}
+# Confusion matrix for logistic regression model
+confusionMatrix(predict(stack_glm, testing),
+                testing$Class)
+info <- confusionMatrix(predict(stack_glm, testing),
+                testing$Class)
+#accuracy <- as.matrix(info,what="overall")[1,1]
+```
+
+
+
+```{r}
+# Build a random forest model
+stack_rf <- train(Class ~ .,
+                  method = "rf", 
+                  data = training,
+                  trControl = trainControl(method = "boot",
+                                           sampling = "up"))
+
+# Print the model object
+stack_rf
+#names(stack_rf)
+#stack_rf$results$Accuracy
+#stack_rf$results$Accuracy[1]
+```
+
+
+
+We moved on to reproduce the paper's result on random forest accuracy. The paper had 6 predictor variables was the optimal model, we tuned our random forest model with mtry of 6 due to this, which has an accuracy of  `r round(stack_rf$results$Accuracy[1], 2)`, similar value on Table 2. in the paper. This is however not the case for the mtry 54 for the random forest model, where we were able to only achieve an accuracy of `r round(stack_rf$results$Accuracy[3], 2)` while the paper's model achieved 97.64, unsure on the discrepancies. 
+
+
+```{r}
+# Set seed
+set.seed(123)
+
+# Confusion matrix for random forest model
+confusionMatrix(predict(stack_rf, testing),
+                testing$Class)
+foo <- confusionMatrix(predict(stack_rf, testing),
+                testing$Class)
+```
+
+
+My random forest model was able to have `r round(foo$overall[1] * 100,2)`% accuracy rating against the testing set while the simple logistic model had an accuracy of `r round(info$overall[1] * 100, 3)`%. However there is clear overfitting here.
+
+```{r, eval=FALSE}
+# Set seed
+set.seed(123)
+
+# Confusion matrix for random forest model
+confusionMatrix(predict(stack_rf, testing),
+                testing$Class)
+```
+```{r}
+tuneGrid <- data.frame(
+  .mtry = c(6),
+  .splitrule = "gini",
+  .min.node.size = 5
+)
+
+model <- train(Class ~.,
+               tuneGrid = tuneGrid,
+               data = divorce,
+               method = "ranger",
+               trControl = trainControl(
+                 method = "cv",
+                 number = 5,
+                 verboseIter = F
+               ))
+model
+model$finalModel
+#plot(model)
+```
+
+
+We compare the simple `glm` model to the random forest model here on their accuracy onto the test set
+
+
+```{r, eval = F}
+# Load yardstick
+library(yardstick)
+
+# Predict values
+testing_results <- testing %>%
+    mutate(`Logistic regression` = predict(stack_glm, testing),
+           `Random forest` = predict(stack_rf, testing))
+## Calculate accuracClass
+accuracy(testing_results, truth = Class, estimate = `Logistic regression`)
+accuracy(testing_results, truth = Class, estimate = `Random forest`)
+
+## Calculate positive predict value
+ppv(testing_results, truth = Class, estimate = `Logistic regression`)
+
+ppv(testing_results, truth = Class, estimate = `Random forest`)
+```
+
+
+
+
+
+
+
+We, then started to look at the mean decrease accuracy for the random forest model using the tuning parameter of gini. Using 2000 trees, we've narrowed down the most significant predictors as question 9, 11, 18, 19, 26, and 40. The paper however recorded 2, 6, 11, 18, 26, 40. 
+
+
+
+```{r, fig.align = 'center', fig.height = 10, fig.width = 10}
+#Install R, get the randomForest package, and run this code:
+library(randomForest)
+set.seed(4543)
+# Random Forest relative importance of variables as predictors
+rffit <- randomForest(Class ~ ., ntree=2000, keep.forest=FALSE, importance=TRUE, data = divorce)
+head(importance(rffit)) # relative importance of predictors (highest <-> most important)
+head(varImpPlot(rffit)) # plot results
+```
+
+```{r}
+g <- importance(rffit, type = 1)
+g <- as.data.frame(g)
+
+#g <-setNames(cbind(rownames(g), g, row.names = NULL), c("atr", "married", "divorce", "MeanDecreaseAccuracy", "MeanDecreaseGini"))
+#head(g %>% arrange(desc(MeanDecreaseAccuracy)))
+```
+
+
+
+
+
+Here are the questions for those interested. 
+
+* 2. I know we can ignore our differences even if things get though sometimes
+
+* 6. We don't have a common time we spent together at home.
+
+* 9. I enjoy traveling with my wife.18. My spouse and I have similar ideas about how marriage should be
+
+* 11. I think that one day in the future, when I look back, I see that my spouse and I have been in harmony with each other.
+
+* 18. My spouse and I have similar ideas about how marriage should be
+
+* 19. My spouse and I have similar ideas about how roles should be in marriage
+
+* 26. I know my spouse's basic anxieties.
+
+* 40. We're just starting a discussion before I know what's going on.
+
+These are the least significant from my model
+
+* 23. I know my spouse's favorite food.
+
+* 45. I'd rather stay silent than discuss with my spouse.
+
+* 46. Even if I'm right in the discussion, I stay silent to hurt my spouse.
+
+* 47. When I discuss with my spouse, I stay silent because I am afraid of not being able to control my anger.
+
+* 48. I feel right in our discussions.
+
+* 51. I'm not the one who's wrong about problems at home.
+
+
+# Conclusions {#conclusions}
+
+The primary goal of this analysis was to reproduce portions of the paper, while there were similarities in the final models, there were still discrepancies I wasn't able to reproduce. This is likely due to a tuning parameter or the particular seed used. Of the 6 most significant predictors, we were able to identify 4. Question 11, 18 makes sense intuitively how why those issues are important. Question 26, 40 on the other hand are more suprising as they deal with uncertainty. The least significant predictors also can intuitively understood, for example question 23, a spouse's favorite food. It would be more perplexing if the model recognized it as significant. The data collecting methods of the researchers isn't particularly representative of marriage on the otherhand. This particular dataset picked participants ensuring that the marriage participants did not have thoughts of divorce, this could leave out unhappy marriages that do not divorce. Other metrics such as percent of divorce, percent of arrange marriage, etc. would put any predictive answers into question. 
+
+
+# References {#references}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
