@@ -1,0 +1,237 @@
+---
+title: "Breast Cancer and Machine Learning"
+author: "Jefferson Ong"
+date: 'Last compiled: `r format(Sys.time(), "%b %d, %Y")`'
+output: bookdown::html_document2
+bibliography: [packages.bib]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = NA, fig.align = "center")
+```
+
+```{r global_options, include=FALSE}
+rm(list=ls()) ### To clear namespace
+library(knitr)
+opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
+               echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown', 'tidyverse', 'base'
+), 'packages.bib')
+```
+
+# Breast Cancer data from Coimbra, Portugal
+
+I've looked into a breast cancer dataset taken from https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Coimbra. We will be creating predictive models that are able to distinguish between healthy individuals and those who have breast cancer based on 9 predictor variables. These predictors are taken from individual's blood such as Glucose, Insulin, etc. as well as their age and BMI. 
+
+## EDA
+
+```{r}
+library(caret)
+library(tidyverse)
+library(readr)
+cancer <- read.csv("dataR2.csv")
+which(is.na(cancer))
+cancer$Classification <- factor(ifelse(cancer$Classification == 1, "Healthy", "Patient"))
+str(cancer)
+```
+
+* The dataset has no missing values and I've changed `Classification` to a factor where 1 means that they are healthy and 2 means that they are a patient with breast cancer. 
+
+* The predictor variables will all be quantitative data with 116 observations.
+
+# Classification Model using `glm()`
+
+## Splitting the data
+
+```{r}
+set.seed(0)
+rows <- sample(nrow(cancer))
+cancer <- cancer[rows,] #shuffles the data
+
+split <- round(nrow(cancer) * .6)
+train <- cancer[1:split,]
+test <- cancer[(split + 1):nrow(cancer),]
+```
+
+* I first started off by splitting the data into a train and test set. Deciding on an arbitrary 60/40 split, where I will use 60% of the data on training and 40% to test the data on. 
+
+
+# Predicting on the test set
+
+```{r, echo = FALSE}
+mod <- glm(Classification ~ ., family = binomial(link = "logit"), data = train)
+pred <- predict(mod, newdata = test, type = "response")
+prediction <- rep("Healthy", nrow(test))
+prediction[pred > 0.5] <- "Patient"
+prediction <- as.factor(prediction)
+
+RES <- confusionMatrix(prediction, test$Classification)
+RES
+RES$overall[1]
+Sens <- round(RES[[4]]["Sensitivity"]*100, 1) # True Positive
+Spec <- round(RES[[4]]["Specificity"]*100, 1) # True Negative
+```
+
+* After splitting the data, I made a glm model using `Classification` as the response storign this as `mod`. We then use this model to predict into to our test dataset we held in reserve. The result of this are probabilities stored in `pred`. 
+
+* After creating a list of "healthy", I arbitrary set a 0.5 cutoff for the probabilities in the prediction to say that they are patients. I wanted to see how well my model performed against new data it hasn't seen before, this is illustrated by the confusion matrix. 
+
+* We can see that overall the model was correct about `r round(RES$overall[1]*100, 2)`% of all cases. The model's sensitivity of `r Sens`% is the true positive rate. It is the proportion of healthy samples that was correctly identified. The model's specificity of `r Spec`% is the true negative rate. It is the proportion of patient sample that was correctly identified. 
+
+# ROC 
+
+Since I had arbitrarily decided to set the cut off at 0.5 of our predicted values on whether those probabilities will correspond to either healthy or patient, maybe a different threshold will yield better results? 
+
+```{r}
+library(caTools)
+pred <- predict(mod, newdata = test, type = "response")
+colAUC(pred, test$Classification, plotROC = T)
+```
+
+* This ROC graph shows all the instances of different thresholds set and plots the sensitivity against (1- specificity). We see that the glm model as a whole gave a AUC of 0.8288462, meaning that as a model predicts correctly 82% of the time. Instead of using a specific threshold, we will use AUC which looks at how well the model performs as a whole at every instance.
+
+# Tuning the glm model using AUC
+
+```{r}
+# Create trainControl object: myControl
+set.seed(7)
+myControl <- trainControl(
+  method = "cv",
+  number = 5,
+  summaryFunction = twoClassSummary,
+  classProbs = TRUE, # IMPORTANT!
+  verboseIter = FALSE
+)
+
+model <- train(Classification ~ ., data = cancer,
+               method = "glm",
+               trControl = myControl)
+
+model
+```
+* Here we used the `trainControl()` to use cross validation on our dataset. Earlier we arbitrarily decided to split the dataset 60/40. Now we will run the same test but with 90/10 since we are using 10 folds, arbitrarily. Each fold however is tested on each other to reduce out of sample variance.
+
+
+# Random Forest vs. Glmnet model
+
+We want to now use a non-linear model such as random forest or glmnet in the hopes of having a better AUC. A good thing to note is that we do not have any missing values in the dataset so we can skip preprocessing. 
+Typically cross validation folds of 5 to 10 of the dataset would yield optimal results. We will be using 5x5 repeated cross validation for the both of our models. 
+
+## Random Forest Model
+
+We will be using the `tuneLength = 9` since our data has 9 predictor variables so it will simulate random forest with 2 through 9 variables at each split. Using the MLeval package, we can quickly get the ROC value of .85 for this model. 
+
+
+```{r, echo = FALSE}
+library(MLeval)
+
+trainControl <- trainControl(
+                 method = "repeatedcv",
+                 number = 5,
+                 repeats = 5,
+                 verboseIter = F,
+                 savePredictions = TRUE, 
+                 classProbs = TRUE)
+model <- train(Classification ~.,
+               tuneLength = 9,
+               data = cancer,
+               method = "ranger",
+               trControl = trainControl)
+x <- evalm(model)
+x$roc
+```
+
+## Glmnet model
+
+Now we will look into the glmnet model with the same number of repeated folds. The tuning parameters for a glmnet uses lasso and ridge, denoted by alpha/lambda values. Here we will test around 40 values 2 from the alpha and 20 from lambda, as the different parameters of the glmnet. We end up with a ROC value of .79 so it seems like the random forest model is slightly better
+
+```{r}
+model <- train(
+  Classification ~ ., data = cancer,
+  tuneGrid = expand.grid(alpha  = 0:1, 
+                         lambda = seq(0.0001, 1, length = 20)),
+  method = "glmnet",
+  trControl = myControl
+)
+
+
+max(model[["results"]][["ROC"]])
+```
+
+## Direct Comparison
+
+The previous examples of the models show how each model performed but we may not we sure where the folds were split, so we want to make sure they're using the same splits. Here we put the models into `resamples()` to directly compare the model's performances.
+
+```{r}
+set.seed(7)
+myControl <- trainControl(
+  method = "repeatedcv",
+  number = 5,
+  repeats = 5,
+  summaryFunction = twoClassSummary,
+  classProbs = TRUE, # IMPORTANT!
+  verboseIter = FALSE
+)
+
+
+modelglmnet <- train(x = cancer[, 1:9],
+                     y = cancer[,10],
+                     metric = "ROC",
+                     method = "glmnet",
+                     tuneGrid = expand.grid(alpha  = 0:1, 
+                         lambda = seq(0.0001, 1, length = 20)),
+                     trControl = myControl)
+
+
+modelranger <- train(Classification ~ ., 
+               data = cancer,
+               tuneLength = 9,
+               metric = "ROC",
+               method = "ranger",
+               trControl = myControl)
+# Create model_list
+model_list <- list(glmnet = modelglmnet, rf = modelranger)
+# Pass model_list to resamples(): ANS
+ANS <- resamples(model_list)
+# Summarize the results
+summary(ANS)
+```
+
+We can see that the random forest is better looking at the mean or median of their ROC values. Where rf mean = 0.8396014 and glmnet mean = 0.7746970 so a random forest model would be able to predict whether an individual is healthy or has breast cancer compare to a glmnet model. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
