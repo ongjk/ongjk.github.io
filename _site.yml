@@ -5,14 +5,17 @@ navbar:
   title: "Jefferson Ong"
   left:
   
-    - text: "About"
-      href: About.html
-      
-    - text: "resume"
+    - text: "Resume"
       href: resume.html
       
-    - text: "Research"
-      href: Research.html
+    - text: "Divorce"
+      href: supervise.html
+      
+    - text: "Breast Cancer"
+      href: WriteUp.html
+
+    - text: "Microtonal"
+      href: microtonal.html
       
     - text: "Resources"
       href: Resources.html

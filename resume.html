@@ -1,379 +1,219 @@
-<!DOCTYPE html>
-
-<html>
-
-<head>
-
-<meta charset="utf-8" />
-<meta name="generator" content="pandoc" />
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-
-
-
-
-<title>Jefferson Ong’s Resume</title>
-
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
-<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
-
-
-
-
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
-
-
-
-
-<style type = "text/css">
-.main-container {
-  max-width: 940px;
-  margin-left: auto;
-  margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
-}
-img {
-  max-width:100%;
-}
-.tabbed-pane {
-  padding-top: 12px;
-}
-.html-widget {
-  margin-bottom: 20px;
-}
-button.code-folding-btn:focus {
-  outline: none;
-}
-summary {
-  display: list-item;
-}
-</style>
-
-
-<style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 61px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 66px;
-  margin-top: -66px;
-}
-.section h2 {
-  padding-top: 66px;
-  margin-top: -66px;
-}
-.section h3 {
-  padding-top: 66px;
-  margin-top: -66px;
-}
-.section h4 {
-  padding-top: 66px;
-  margin-top: -66px;
-}
-.section h5 {
-  padding-top: 66px;
-  margin-top: -66px;
-}
-.section h6 {
-  padding-top: 66px;
-  margin-top: -66px;
-}
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -6px;
-  margin-left: -1px;
-  border-radius: 0 6px 6px 6px;
-}
-.dropdown-submenu:hover>.dropdown-menu {
-  display: block;
-}
-.dropdown-submenu>a:after {
-  display: block;
-  content: " ";
-  float: right;
-  width: 0;
-  height: 0;
-  border-color: transparent;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  border-left-color: #cccccc;
-  margin-top: 5px;
-  margin-right: -10px;
-}
-.dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
-}
-.dropdown-submenu.pull-left {
-  float: none;
-}
-.dropdown-submenu.pull-left>.dropdown-menu {
-  left: -100%;
-  margin-left: 10px;
-  border-radius: 6px 0 6px 6px;
-}
-</style>
-
-<script>
-// manage active state of menu based on current page
-$(document).ready(function () {
-  // active menu anchor
-  href = window.location.pathname
-  href = href.substr(href.lastIndexOf('/') + 1)
-  if (href === "")
-    href = "index.html";
-  var menuAnchor = $('a[href="' + href + '"]');
-
-  // mark it active
-  menuAnchor.parent().addClass('active');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
-});
-</script>
-
-<!-- tabsets -->
-
-<style type="text/css">
-.tabset-dropdown > .nav-tabs {
-  display: inline-table;
-  max-height: 500px;
-  min-height: 44px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
-  font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-}
-
-.tabset-dropdown > .nav-tabs > li.active {
-  display: block;
-}
-
-.tabset-dropdown > .nav-tabs > li > a,
-.tabset-dropdown > .nav-tabs > li > a:focus,
-.tabset-dropdown > .nav-tabs > li > a:hover {
-  border: none;
-  display: inline-block;
-  border-radius: 4px;
-  background-color: transparent;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
-  display: block;
-  float: none;
-}
-
-.tabset-dropdown > .nav-tabs > li {
-  display: none;
-}
-</style>
-
-<!-- code folding -->
-
-
-
-
-</head>
-
-<body>
-
-
-<div class="container-fluid main-container">
-
-
-
-
-<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.html">Jefferson Ong</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li>
-  <a href="About.html">About</a>
-</li>
-<li>
-  <a href="resume.html">resume</a>
-</li>
-<li>
-  <a href="Research.html">Research</a>
-</li>
-<li>
-  <a href="Resources.html">Resources</a>
-</li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/ongjk/ongjk.github.io">
-    <span class="fa fa-github fa-lg"></span>
-     
-    
-  </a>
-</li>
-      </ul>
-    </div><!--/.nav-collapse -->
-  </div><!--/.container -->
-</div><!--/.navbar -->
-
-<div class="fluid-row" id="header">
-
-
-
-<h1 class="title toc-ignore">Jefferson Ong’s Resume</h1>
-
-</div>
-
-
-<hr />
-<div id="educational-background" class="section level3">
-<h3>EDUCATIONAL BACKGROUND</h3>
-<p>08/18—05/20: <strong>Bachelor of Mathematics</strong>, <em>Appalachian State University</em> – Boone, NC Cumulative <code>GPA: 3.0/4.0</code> Math concentration in Statistics</p>
-<p>08/16—05/18: <strong>Associates in Science</strong>, <em>Fayetteville Technical College</em> – Fayetteville, NC Cumulative <code>GPA: 3.8/4.0</code> concentration in mathematics and chemistry.</p>
-<hr />
-</div>
-<div id="work-experience" class="section level3">
-<h3>WORK EXPERIENCE</h3>
-<p>09/18—05/20: <strong>Undergraduate Research</strong>, <em>S-STEM Scholarship</em> – Boone, NC Worked in a group of five on western tonal system to a generalized microtonal system using modular arithmetic.</p>
-<p>01/18—08/18: <strong>Event Specialist</strong>, <em>Advantage Solutions</em> – Fayetteville, NC Cooking, preparing, and serving food and drink samples to Sam’s Club members. Informing and selling the product, as well as keeping detailed records and stocks</p>
-<p>01/18—06/18: <strong>Hospice Volunteer</strong>, <em>Cape Fear Valley Health</em> – Fayetteville, NC Provide supportive care to patient in the final stage of terminal illness. Focusing on quality of life through active listening and emotional support.</p>
-<hr />
-<p>03/17—05/18: <strong>Honor Society</strong>, <em>Phi Theta Kappa</em>– Fayetteville, NC International honor society of two-year colleges and academic programs.</p>
-<p>02/12—06/15: <strong>Chess Club President</strong>, <em>Pine Forest Chess Club</em> – Fayetteville, NC Advertising and event management of chess club events. Teaching new members rules and strategy of chess.</p>
-</div>
-<div id="page-length-testing" class="section level2">
-<h2>Page length testing</h2>
-<p>R version 3.5.2 (2018-12-20) – “Eggshell Igloo” Copyright (C) 2018 The R Foundation for Statistical Computing Platform: x86_64-redhat-linux-gnu (64-bit)</p>
-<p>R is free software and comes with ABSOLUTELY NO WARRANTY. You are welcome to redistribute it under certain conditions. Type ‘license()’ or ‘licence()’ for distribution details.</p>
-<p>Natural language support but running in an English locale</p>
-<p>R is a collaborative project with many contributors. Type ‘contributors()’ for more information and ‘citation()’ on how to cite R or R packages in publications.</p>
-<p>Type ‘demo()’ for some demos, ‘help()’ for on-line help, or ‘help.start()’ for an HTML browser interface to help. Type ‘q()’ to quit R.</p>
-<p>R version 3.5.2 (2018-12-20) – “Eggshell Igloo” Copyright (C) 2018 The R Foundation for Statistical Computing Platform: x86_64-redhat-linux-gnu (64-bit)</p>
-<p>R is free software and comes with ABSOLUTELY NO WARRANTY. You are welcome to redistribute it under certain conditions. Type ‘license()’ or ‘licence()’ for distribution details.</p>
-<p>Natural language support but running in an English locale</p>
-<p>R is a collaborative project with many contributors. Type ‘contributors()’ for more information and ‘citation()’ on how to cite R or R packages in publications.</p>
-<p>Type ‘demo()’ for some demos, ‘help()’ for on-line help, or ‘help.start()’ for an HTML browser interface to help. Type ‘q()’ to quit R.</p>
-<p>R version 3.5.2 (2018-12-20) – “Eggshell Igloo” Copyright (C) 2018 The R Foundation for Statistical Computing Platform: x86_64-redhat-linux-gnu (64-bit)</p>
-<p>R is free software and comes with ABSOLUTELY NO WARRANTY. You are welcome to redistribute it under certain conditions. Type ‘license()’ or ‘licence()’ for distribution details.</p>
-<p>Natural language support but running in an English locale</p>
-<p>R is a collaborative project with many contributors. Type ‘contributors()’ for more information and ‘citation()’ on how to cite R or R packages in publications.</p>
-<p>Type ‘demo()’ for some demos, ‘help()’ for on-line help, or ‘help.start()’ for an HTML browser interface to help. Type ‘q()’ to quit R.</p>
-</div>
-<div id="latex-testing" class="section level2">
-<h2>latex testing</h2>
-<p><span class="math display">\[\sin(x) = \frac{3}{4}\]</span></p>
-</div>
-
-
-
-
-</div>
-
-<script>
-
-// add bootstrap table styles to pandoc tables
-function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
-}
-$(document).ready(function () {
-  bootstrapStylePandocTables();
-});
-
-
-</script>
-
-<!-- tabsets -->
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
-<!-- code folding -->
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
-
-</body>
-</html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<TITLE>Jefferson.Ong.Resume.01</TITLE>
+<META name="generator" content="BCL easyConverter SDK 5.0.210">
+<STYLE type="text/css">
+
+body {margin-top: 0px;margin-left: 0px;}
+
+#page_1 {position:relative; overflow: hidden;margin: 4px 0px 0px 0px;padding: 0px;border: none;width: 1225px;}
+#page_1 #id1_1 {border:none;margin: 0px 0px 0px 0px;padding: 0px;border:none;width: 1225px;overflow: hidden;}
+#page_1 #id1_2 {border:none;margin: 0px 0px 0px 67px;padding: 0px;border:none;width: 1075px;overflow: hidden;}
+#page_1 #id1_2 #id1_2_1 {float:left;border:none;margin: 0px 0px 0px 0px;padding: 0px;border:none;width: 326px;overflow: hidden;}
+#page_1 #id1_2 #id1_2_2 {float:left;border:none;margin: 0px 0px 0px -86px;padding: 0px;border:none;width: 835px;overflow: hidden;}
+#page_1 #id1_3 {border:none;margin: 0px 0px 0px 307px;padding: 0px;border:none;width: 816px;overflow: hidden;}
+#page_1 #id1_4 {border:none;margin: -112px 0px 0px 315px;padding: 0px;border:none;width: 538px;overflow: hidden;}
+
+#page_1 #p1dimg1 {position:absolute;top:910px;left:78px;z-index:-1;width:96px;height:96px;}
+#page_1 #p1dimg1 #p1img1 {width:96px;height:96px;}
+
+
+
+
+.ft0{font: 53px 'Arial';line-height: 42px;}
+.ft1{font: 19px 'Arial';color: #6a6a6a;line-height: 22px;position: relative; bottom: -4px;}
+.ft2{font: 53px 'Arial';color: #42b9f4;line-height: 42px;}
+.ft3{font: bold 13px 'Arial';color: #6a6a6a;line-height: 16px;}
+.ft4{font: 15px 'Arial';color: #6a6a6a;line-height: 17px;}
+.ft5{font: 1px 'Arial';color: #6a6a6a;line-height: 0px;}
+.ft6{font: 1px 'Arial';line-height: 1px;}
+.ft7{font: italic 28px 'Times New Roman';color: #6a6a6a;line-height: 0px;}
+.ft8{font: bold 13px 'Arial';color: #6a6a6a;line-height: 0px;}
+.ft9{font: italic 1px 'Times New Roman';color: #6a6a6a;line-height: 0px;}
+.ft10{font: 1px 'Arial';line-height: 0px;}
+.ft11{font: 23px 'Arial';color: #2b2b2b;line-height: 0px;}
+.ft12{font: bold 16px 'Arial';color: #333333;line-height: 0px;}
+.ft13{font: bold 15px 'Arial';color: #333333;line-height: 0px;}
+.ft14{font: 13px 'Arial';color: #6a6a6a;line-height: 0px;}
+.ft15{font: 1px 'Arial';color: #2b2b2b;line-height: 0px;}
+.ft16{font: 13px 'Arial';color: #2b2b2b;margin-left: 86px;line-height: 0px;}
+.ft17{font: 13px 'Arial';color: #2b2b2b;line-height: 0px;}
+.ft18{font: 19px 'Arial';color: #2b2b2b;line-height: 0px;}
+.ft19{font: 15px 'Arial';color: #2b2b2b;line-height: 0px;}
+.ft20{font: 13px 'Arial';color: #2b2b2b;margin-left: 77px;line-height: 0px;}
+.ft21{font: 13px 'Arial';color: #2b2b2b;margin-left: 326px;line-height: 0px;}
+.ft22{font: 13px 'Arial';color: #2b2b2b;line-height: 5px;}
+
+.p0{text-align: left;padding-left: 67px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+.p1{text-align: right;padding-right: 20px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+.p2{text-align: center;padding-left: 16px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+.p3{text-align: left;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+.p4{text-align: center;padding-left: 406px;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+.p5{text-align: left;margin-top: 0px;margin-bottom: 0px;}
+.p6{text-align: left;margin-top: 0px;margin-bottom: 0px;}
+.p7{text-align: left;margin-top: 0px;margin-bottom: 0px;}
+.p8{text-align: right;margin-top: 0px;margin-bottom: 0px;white-space: nowrap;}
+
+.td0{padding: 0px;margin: 0px;width: 439px;vertical-align: bottom;}
+.td1{padding: 0px;margin: 0px;width: 110px;vertical-align: bottom;}
+.td2{padding: 0px;margin: 0px;width: 54px;vertical-align: bottom;}
+.td3{padding: 0px;margin: 0px;width: 213px;vertical-align: bottom;}
+.td4{padding: 0px;margin: 0px;width: 816px;vertical-align: bottom;}
+.td5{border-bottom: #6a6a6a 1px solid;padding: 0px;margin: 0px;width: 439px;vertical-align: bottom;}
+.td6{border-bottom: #6a6a6a 1px solid;padding: 0px;margin: 0px;width: 110px;vertical-align: bottom;}
+.td7{border-bottom: #6a6a6a 1px solid;padding: 0px;margin: 0px;width: 54px;vertical-align: bottom;}
+.td8{border-bottom: #6a6a6a 1px solid;padding: 0px;margin: 0px;width: 213px;vertical-align: bottom;}
+.td9{padding: 0px;margin: 0px;width: 223px;vertical-align: bottom;}
+.td10{padding: 0px;margin: 0px;width: 142px;vertical-align: bottom;}
+
+.tr0{height: 47px;}
+.tr1{height: 1000px;}
+.tr2{height: 0px;}
+.tr3{height: -1px;}
+.tr4{height: 112px;}
+.tr5{height: 5px;}
+
+.t0{width: 1225px;font: bold 13px 'Arial';color: #6a6a6a;}
+.t1{width: 538px;font: 13px 'Arial';color: #2b2b2b;}
+
+</STYLE>
+</HEAD>
+
+<BODY>
+<DIV id="page_1">
+<DIV id="p1dimg1">
+<IMG src="data:image/jpg;base64,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" id="p1img1"></DIV>
+
+
+<DIV id="id1_1">
+<TABLE cellpadding=0 cellspacing=0 class="t0">
+<TR>
+	<TD class="tr0 td0"><P class="p0 ft2">Jefferson <SPAN class="ft0">Ong </SPAN><A href="mailto:ongjk@appstate.edu"><SPAN class="ft1"></SPAN></A></P></TD>
+	<TD class="tr0 td1"><P class="p1 ft3"><NOBR>910-273-2383</NOBR></P></TD>
+	<TD class="tr0 td2"><P class="p2 ft4"><A href="https://www.linkedin.com/in/ongjk/"></A></P></TD>
+	<TD class="tr0 td3"><P class="p3 ft3">ongjk.github.io</P></TD>
+</TR>
+<TR>
+	<TD class="tr1 td0"><P class="p4 ft5"></P></TD>
+	<TD class="tr1 td1"><P class="p3 ft6">&nbsp;</P></TD>
+	<TD class="tr1 td2"><P class="p2 ft5"></P></TD>
+	<TD class="tr1 td3"><P class="p3 ft6">&nbsp;</P></TD>
+</TR>
+<TR>
+	<TD colspan=4 class="tr2 td4"><P class="p3 ft8"><SPAN class="ft7">⃝</SPAN>ongjk@appstate.edu <A href="https://github.com/ongjk"><SPAN class="ft7">⃝</SPAN></A>in/ongjk/</P></TD>
+</TR>
+<TR>
+	<TD class="tr3 td5"><P class="p4 ft9">⃝</P></TD>
+	<TD class="tr3 td6"><P class="p3 ft10">&nbsp;</P></TD>
+	<TD class="tr3 td7"><P class="p2 ft9">⃝</P></TD>
+	<TD class="tr3 td8"><P class="p3 ft10">&nbsp;</P></TD>
+</TR>
+</TABLE>
+</DIV>
+<DIV id="id1_2">
+<DIV id="id1_2_1">
+<P class="p5 ft11">Education</P>
+<P class="p5 ft12">Bachelor Of Science</P>
+<P class="p5 ft13">Mathematics</P>
+<P class="p5 ft14">Appalachian State | <NOBR>2018-2020</NOBR></P>
+<P class="p6 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft16">May 2020</SPAN></P>
+<P class="p6 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft16">GPA: 3.9</SPAN></P>
+<P class="p5 ft12">Associate Of Science</P>
+<P class="p5 ft14">Fayetteville Tech | <NOBR>2015-2018</NOBR></P>
+<P class="p6 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft16">May 2018</SPAN></P>
+<P class="p6 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft16">GPA: 3.8(Honors)</SPAN></P>
+<P class="p5 ft11">Coursework</P>
+<P class="p5 ft18">Math & Statistics</P>
+<P class="p5 ft17">Data Analysis</P>
+<P class="p5 ft17">Data Science</P>
+<P class="p5 ft17">Mathematical Statistics</P>
+<P class="p5 ft17">Statistical Modeling</P>
+<P class="p5 ft17">Probability</P>
+<P class="p5 ft17">Sport Analytic</P>
+<P class="p5 ft17">Real Analysis</P>
+<P class="p5 ft17">Linear Algebra</P>
+<P class="p5 ft17">Numerical Methods</P>
+<P class="p5 ft17">Graph Theory</P>
+<P class="p5 ft17">Datacamp Courses: 34</P>
+<P class="p5 ft11">Skills</P>
+<P class="p5 ft13">Languages</P>
+<P class="p5 ft19">R</P>
+<P class="p5 ft19">Python</P>
+<P class="p5 ft19">SQL</P>
+<P class="p5 ft14">IDE & Packages</P>
+<P class="p6 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft20">R Studio • Spyder • MySQL</SPAN></P>
+<P class="p6 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft20">Dplyr • Caret • Ggplot2</SPAN></P>
+<P class="p5 ft13">Interest</P>
+<P class="p5 ft14">Art</P>
+<P class="p5 ft17">Portraits • Concept Art • Poetry</P>
+<P class="p5 ft14">Medium</P>
+<P class="p5 ft17">Oil • Ink Brush • Watercolor</P>
+<P class="p5 ft14">Software</P>
+<P class="p5 ft17">Unity • Coral 2019</P>
+<P class="p5 ft14">Languages</P>
+<P class="p5 ft17">English • Tagalog</P>
+</DIV>
+<DIV id="id1_2_2">
+<P class="p5 ft11">Projects & Publications</P>
+<P class="p5 ft12">Divorce Questionnaire Prediction <SPAN class="ft14">Spring 2020</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Reproduction of a study in Turkey using ML models</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Used 5x5 cross validation testing on random forest models</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Looked for signiﬁcant predictors base on importance</SPAN></P>
+<P class="p5 ft12">Breast Cancer In Portugal <SPAN class="ft14">Spring 2020</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Predicted whether a patient has breast cancer base on blood work</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Adjusted tuning parameters using caret package</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Compared ridge/lasso regression and random forest base on AUC</SPAN></P>
+<P class="p5 ft11">Undergraduate Research</P>
+<P class="p5 ft12">Football Attendance & Coronavirus Data <SPAN class="ft14">Sring 2020</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Used ML models to predict fan attendance</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Created data visualization for infected in US</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Perform time series forecasting for NC</SPAN></P>
+<P class="p5 ft12">Toledo Placement Cutoff <SPAN class="ft14">Fall 2019</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Chemistry Department’s test results was used to assess students.</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Conducted Data analysis with logistic modelling</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Presented results to school faculty</SPAN></P>
+<P class="p5 ft12">Symmetry In Atonal Music <SPAN class="ft14">Spring 2019</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Investigated rarity in musical 12 tones rows</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Probed row operations such as transposition</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Generalized for </SPAN><NOBR>n-notes</NOBR> system</P>
+<P class="p5 ft12">Abstract Alegebra Meets Music Theory <SPAN class="ft14">Fall 2018</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Examined </SPAN><NOBR>seven-note</NOBR> diatonic scales</P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Analyzed generalized formulas of perfect ﬁfth</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Applied modular arithmatic</SPAN></P>
+<P class="p5 ft11">Work Experience</P>
+<P class="p5 ft12">Advantage Solution <SPAN class="ft13">| Event Specialist</SPAN></P>
+<P class="p5 ft14">spring 2018 - summer 2018</P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">promote brand awareness through product demonstration</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Engage customers by promoting products to increase sales</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Assess customers’ needs and interests to best recommend products</SPAN></P>
+<P class="p5 ft12">Cape Fear Valley Health <SPAN class="ft13">| Hospice Volunteer</SPAN></P>
+<P class="p5 ft14">fall 2017 - summer 2018</P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Visit with patients to provide companionship and support.</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Assisted with running errands, meal preparation, and other tasks.</SPAN></P>
+<P class="p7 ft17"><SPAN class="ft15">•</SPAN><SPAN class="ft21">Maintain close contact with volunteer coordinator and hospice staff</SPAN></P>
+</DIV>
+</DIV>
+<DIV id="id1_3">
+<P class="p5 ft11">Leadership & Involvement</P>
+</DIV>
+<DIV id="id1_4">
+<TABLE cellpadding=0 cellspacing=0 class="t1">
+<TR>
+	<TD class="tr4 td9"><P class="p3 ft17">Asian Student Association</P></TD>
+	<TD class="tr4 td10"><P class="p8 ft15"><NOBR>2018-2020</NOBR></P></TD>
+</TR>
+<TR>
+	<TD class="tr2 td9"><P class="p3 ft17">Figure Drawing Club</P></TD>
+	<TD class="tr2 td10"><P class="p8 ft15"><NOBR>2018-2020</NOBR></P></TD>
+</TR>
+<TR>
+	<TD class="tr5 td9"><P class="p3 ft22">Lindy Hop Swing Dance</P></TD>
+	<TD class="tr5 td10"><P class="p8 ft22"><NOBR>2018-2020</NOBR></P></TD>
+</TR>
+</TABLE>
+</DIV>
+</DIV>
+</BODY>
+</HTML>
