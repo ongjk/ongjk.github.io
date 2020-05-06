@@ -6,14 +6,13 @@ title: "Welcome!"
 <img src="./images/Ongpng.png" alt="Ong" align="left" hspace="20" style="width:120px;height:120px;">
 </figure>
 
+Hello! 
 
-Check out the github for look info
- 
-Test 1
+Thank you for checking out my website! 
 
-*test 2*
+I received by B.S. in Mathematics from the Department of Mathematical Sciences at Appalachian State University in May 2020. I concentrated in statistics and data science. You can find previous projects I've work on here. The codes can also be found in my github reposities as well as other projects that I've done in the past.
+The `about` page talks more about my interest in statistics and math.
 
-**test 3**
 
 
 This website was last rendered on `r format(Sys.time(), "%A, %B %d, %Y - %X.")`

@@ -1,5 +1,5 @@
 ---
-title: "MAT 4310 - Root Finding and Interpolation Capstone"
+title: "Root Finding and Interpolation Capstone"
 author: "Jefferson Ong"
 date: "4/7/2020"
 output: pdf_document
