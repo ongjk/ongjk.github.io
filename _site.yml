@@ -15,7 +15,7 @@ navbar:
       href: WriteUp.html
 
     - text: "Microtonal"
-      href: microtonal.html
+      href: Research.html
 
     - text: "Root Finding"
       href: numerical.html
