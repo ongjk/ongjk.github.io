@@ -1,0 +1,40 @@
+---
+title: "Contacts"
+author: "Jefferson Ong"
+date: "5/7/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Contacts
+
+* Phone: 910-237-2383
+
+* Email: Ongjk@appstate.edu
+
+* [Linkedin](https://www.linkedin.com/in/ongjk/)
+
+* [Github](https://github.com/ongjk)
+
+
+
+### Social Media
+
+* [Instagram](https://www.instagram.com/fjorgesefonn/)
+
+* [Facebook](https://www.facebook.com/jefferson.ong.3)
+
+* [Pinterest](https://www.pinterest.com/jefferson3491/boards/)
+
+
+
+
+
+
+
+
+

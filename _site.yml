@@ -8,20 +8,22 @@ navbar:
     - text: "Resume"
       href: resume.html
       
-    - text: "Divorce"
-      href: supervise.html
-      
-    - text: "Breast Cancer"
-      href: WriteUp.html
-
-    - text: "Microtonal"
-      href: Research.html
-
-    - text: "Root Finding"
-      href: numerical.html
-      
-    - text: "About"
+    - text: "Projects"
+      menu:
+        - text: "Divorce Predictor Data"
+          href: supervise.html
+        - text: "Breast Cancer Data"
+          href: WriteUp.html
+        - text: "Microtonal Research"
+          href: Research.html
+        - text: "Root Finding & Interpolation"
+          href: numerical.html
+          
+    - text: "Research Interest"
       href: about.html
+
+    - text: "Contacts"
+      href: Contacts.html
       
   right:
     - text: ""
