@@ -1,13 +1,12 @@
 ---
-title: "Research"
-author: "Jefferson Ong"
-date: "2/5/2019"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+## Research
 
 The research is under the S-STEM program and deals with trying to understand the symmetry in the 12-note western tonal system in its different frequency and octaves. It follows a paper done by professors in the Department of Mathematical Sciences at Appalachain State.
 

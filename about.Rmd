@@ -1,13 +1,16 @@
 ---
-title: "About"
-author: "Jefferson Ong"
-date: "5/6/2020"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+
+## Research Interest
+
+
+
 
 My interest in statistics and math, Its a subject that I often do well in and understand easier than others. I believe a great deal of that comes from trying to understand the foundational understanding of the formulas and functions we're given. Things aren't just variables we plug into a function and get an output. Something more exciting is happening behind the close doors. 
 

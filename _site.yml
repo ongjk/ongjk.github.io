@@ -6,7 +6,7 @@ navbar:
   left:
   
     - text: "Resume"
-      href: resume.html
+      href: JeffersonOngResume.html
       
     - text: "Projects"
       menu:
@@ -17,7 +17,7 @@ navbar:
         - text: "Microtonal Research"
           href: Research.html
         - text: "Root Finding & Interpolation"
-          href: numerical.html
+          href: num.html
           
     - text: "Research Interest"
       href: about.html
@@ -28,7 +28,7 @@ navbar:
   right:
     - text: ""
       icon: fa-github fa-lg
-      href: https://ongjk.github.io/index.html
+      href: https://github.com/ongjk
 
 output:
   html_document:

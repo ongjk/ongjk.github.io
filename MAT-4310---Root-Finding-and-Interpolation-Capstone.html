@@ -11,86 +11,38 @@
 
 <meta name="author" content="Jefferson Ong" />
 
+<meta name="date" content="2020-05-09" />
 
 <title>Root Finding and Interpolation Capstone</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
-
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css" data-origin="pandoc">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; background-color: #303030; color: #cccccc; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; }
-td.sourceCode { padding-left: 5px; }
-pre, code { color: #cccccc; background-color: #303030; }
-code > span.kw { color: #f0dfaf; } /* Keyword */
-code > span.dt { color: #dfdfbf; } /* DataType */
-code > span.dv { color: #dcdccc; } /* DecVal */
-code > span.bn { color: #dca3a3; } /* BaseN */
-code > span.fl { color: #c0bed1; } /* Float */
-code > span.ch { color: #dca3a3; } /* Char */
-code > span.st { color: #cc9393; } /* String */
-code > span.co { color: #7f9f7f; } /* Comment */
-code > span.ot { color: #efef8f; } /* Other */
-code > span.al { color: #ffcfaf; } /* Alert */
-code > span.fu { color: #efef8f; } /* Function */
-code > span.er { color: #c3bf9f; } /* Error */
-code > span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
-code > span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
-code > span.sc { color: #dca3a3; } /* SpecialChar */
-code > span.vs { color: #cc9393; } /* VerbatimString */
-code > span.ss { color: #cc9393; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { } /* Variable */
-code > span.cf { color: #f0dfaf; } /* ControlFlow */
-code > span.op { color: #f0efd0; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
-code > span.at { } /* Attribute */
-code > span.do { color: #7f9f7f; } /* Documentation */
-code > span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
-code > span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
-code > span.in { color: #7f9f7f; font-weight: bold; } /* Information */
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
 
 
 <style type="text/css">
@@ -154,33 +106,33 @@ summary {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 61px;
+  padding-top: 45px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h2 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h3 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h4 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h5 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h6 {
-  padding-top: 66px;
-  margin-top: -66px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .dropdown-submenu {
   position: relative;
@@ -324,7 +276,7 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="resume.html">Resume</a>
+  <a href="JeffersonOngResume.html">Resume</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -343,7 +295,7 @@ $(document).ready(function () {
       <a href="Research.html">Microtonal Research</a>
     </li>
     <li>
-      <a href="numerical.html">Root Finding &amp; Interpolation</a>
+      <a href="num.html">Root Finding &amp; Interpolation</a>
     </li>
   </ul>
 </li>
@@ -356,7 +308,7 @@ $(document).ready(function () {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://ongjk.github.io/index.html">
+  <a href="https://github.com/ongjk">
     <span class="fa fa-github fa-lg"></span>
      
     
@@ -373,13 +325,13 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Root Finding and Interpolation Capstone</h1>
 <h4 class="author">Jefferson Ong</h4>
-<h4 class="date">4/7/2020</h4>
+<h4 class="date">May 09, 2020</h4>
 
 </div>
 
 
 <div id="question-1" class="section level1">
-<h1>Question 1:</h1>
+<h1><span class="header-section-number">1</span> Question 1:</h1>
 <p>There are several suggested production level codes’ that can be programmed for general purpose root finding. All assume that there is an interval that brackets the root to start. The code does either linear or quadratic inverse interpolation’’ to produce a new estimate of the root. If the convergence is slow, then the method reverts to bisection for a few steps to cut down on the size of the interval.</p>
 <p>Your job: Consider the two programs</p>
 <ul>
@@ -393,218 +345,218 @@ $(document).ready(function () {
 <li><p><span class="math inline">\(f(x) = (1-x)e^{-1/(x-1)^2}\)</span> on [0,3] accurate to 1.0E-10.</p></li>
 </ol>
 <p>Le claims that his simplification of Brent is better because it eliminates a lot of the complicated conditional testing and still converges either about the same or faster than Brent’s original algorithm. Does your experimentation support this claim?</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> math
+<pre class="python"><code>import math
 
-<span class="kw">def</span> f(x):
-  <span class="cf">return</span> (x <span class="op">-</span> <span class="dv">1</span>)<span class="op">*</span>(x <span class="op">-</span> <span class="dv">2</span>)<span class="op">*</span>(x <span class="op">-</span> <span class="dv">3</span>)<span class="op">*</span>(x <span class="op">-</span> <span class="dv">4</span>)<span class="op">*</span>(x<span class="op">-</span> <span class="dv">5</span>)<span class="op">*</span>(x <span class="op">-</span> <span class="dv">6</span>)<span class="op">*</span>(x <span class="op">-</span> <span class="fl">7.0000000001</span>)<span class="co">#function for which root is desired</span>
+def f(x):
+  return (x - 1)*(x - 2)*(x - 3)*(x - 4)*(x- 5)*(x - 6)*(x - 7.0000000001)#function for which root is desired
 
-<span class="kw">def</span> brent(a,b,relerr,abserr):
-<span class="co"># Calculates the root of an externally provided function f(x)</span>
-<span class="co"># in the interval [a,b]</span>
-<span class="co"># with specified relative and absolute error tolerances.</span>
-    max_func_evals <span class="op">=</span> <span class="dv">500</span> <span class="co">#the user should change this value if more evaluations are desired</span>
+def brent(a,b,relerr,abserr):
+# Calculates the root of an externally provided function f(x)
+# in the interval [a,b]
+# with specified relative and absolute error tolerances.
+    max_func_evals = 500 #the user should change this value if more evaluations are desired
 
-    <span class="co">#calculate machine epsilon and make sure tolerance is not too small</span>
-    epsilon <span class="op">=</span> <span class="fl">1.0</span>
-    <span class="cf">while</span> <span class="dv">1</span> <span class="op">+</span> epsilon <span class="op">&gt;</span> <span class="fl">1.0</span>:
-         epsilon <span class="op">=</span> epsilon <span class="op">/</span> <span class="fl">2.0</span>
-    epsilon <span class="op">=</span> <span class="fl">2.0</span> <span class="op">*</span> epsilon
-    <span class="cf">if</span> ((relerr <span class="op">&lt;</span> <span class="fl">10.0</span><span class="op">*</span>epsilon) <span class="kw">or</span> (abserr <span class="op">&lt;</span> <span class="fl">0.0</span>)):
-        <span class="bu">print</span>(<span class="st">&quot;Error in specifying the tolerances.&quot;</span>)
+    #calculate machine epsilon and make sure tolerance is not too small
+    epsilon = 1.0
+    while 1 + epsilon &gt; 1.0:
+         epsilon = epsilon / 2.0
+    epsilon = 2.0 * epsilon
+    if ((relerr &lt; 10.0*epsilon) or (abserr &lt; 0.0)):
+        print(&quot;Error in specifying the tolerances.&quot;)
 
-    count <span class="op">=</span> <span class="dv">0</span>
-    width <span class="op">=</span> <span class="bu">abs</span>(a<span class="op">-</span>b)
-    fb <span class="op">=</span> f(b)
-    fa <span class="op">=</span> f(a)
-    num_func_evals <span class="op">=</span> <span class="dv">2</span>
+    count = 0
+    width = abs(a-b)
+    fb = f(b)
+    fa = f(a)
+    num_func_evals = 2
 
-    <span class="cf">if</span> fb <span class="op">==</span> <span class="fl">0.0</span>:  <span class="co"># see if the root is already found</span>
-        <span class="bu">print</span>(<span class="st">&quot; The root is&quot;</span>, b)
-        Print(<span class="st">&quot;and the function value at the root is&quot;</span>, <span class="fl">0.0</span>)
-        <span class="cf">return</span>
-    <span class="cf">if</span> fa <span class="op">*</span> fb <span class="op">&gt;=</span> <span class="fl">0.0</span>:  <span class="co"># make sure the root is between the endpoints/</span>
-        <span class="bu">print</span>(<span class="st">&quot;[b,c] does not bracket the root.&quot;</span>)
-        <span class="cf">return</span>
-    <span class="cf">if</span> <span class="bu">abs</span>(fa) <span class="op">&lt;</span> <span class="bu">abs</span>(fb):  <span class="co"># keep the value closest to the axis</span>
-        temp <span class="op">=</span> a
-        a <span class="op">=</span> b
-        b <span class="op">=</span> temp
-        temp <span class="op">=</span> fa
-        fa <span class="op">=</span> fb
-        fb <span class="op">=</span> temp
-    initial_residual <span class="op">=</span> fa
-    c <span class="op">=</span> a
-    fc <span class="op">=</span> fa
-    mflag <span class="op">=</span> <span class="va">True</span>
-    lin <span class="op">=</span> <span class="dv">0</span>
-    quad <span class="op">=</span> <span class="dv">0</span>
-    <span class="cf">while</span> num_func_evals <span class="op">&lt;</span> max_func_evals:
-        <span class="cf">if</span> fa <span class="op">!=</span> fc <span class="kw">and</span> fb <span class="op">!=</span> fc:  <span class="co">#quadratic interpolation</span>
-            s <span class="op">=</span> (a<span class="op">*</span>fb<span class="op">*</span>fc)<span class="op">/</span>((fa<span class="op">-</span>fb)<span class="op">*</span>(fa<span class="op">-</span>fc)) <span class="op">+</span> (b<span class="op">*</span>fa<span class="op">*</span>fc)<span class="op">/</span>((fb<span class="op">-</span>fa)<span class="op">*</span>(fb<span class="op">-</span>fc)) <span class="op">+</span> (c<span class="op">*</span>fa<span class="op">*</span>fb)<span class="op">/</span>((fc<span class="op">-</span>fa)<span class="op">*</span>(fc<span class="op">-</span>fb))
-            quad <span class="op">+=</span><span class="dv">1</span>
-        <span class="cf">else</span>: <span class="co"># linear (secant) interpolation</span>
-            s <span class="op">=</span> b <span class="op">-</span> fb <span class="op">*</span> (b<span class="op">-</span>a) <span class="op">/</span> (fb<span class="op">-</span>fa)
-            lin <span class="op">+=</span><span class="dv">1</span>
-        bisect <span class="op">=</span> <span class="va">False</span>
+    if fb == 0.0:  # see if the root is already found
+        print(&quot; The root is&quot;, b)
+        Print(&quot;and the function value at the root is&quot;, 0.0)
+        return
+    if fa * fb &gt;= 0.0:  # make sure the root is between the endpoints/
+        print(&quot;[b,c] does not bracket the root.&quot;)
+        return
+    if abs(fa) &lt; abs(fb):  # keep the value closest to the axis
+        temp = a
+        a = b
+        b = temp
+        temp = fa
+        fa = fb
+        fb = temp
+    initial_residual = fa
+    c = a
+    fc = fa
+    mflag = True
+    lin = 0
+    quad = 0
+    while num_func_evals &lt; max_func_evals:
+        if fa != fc and fb != fc:  #quadratic interpolation
+            s = (a*fb*fc)/((fa-fb)*(fa-fc)) + (b*fa*fc)/((fb-fa)*(fb-fc)) + (c*fa*fb)/((fc-fa)*(fc-fb))
+            quad +=1
+        else: # linear (secant) interpolation
+            s = b - fb * (b-a) / (fb-fa)
+            lin +=1
+        bisect = False
 
-        <span class="co">#see if we need to switch to bisection </span>
-        <span class="cf">if</span> s <span class="op">&lt;</span> (<span class="fl">3.0</span><span class="op">*</span>a <span class="op">+</span> b)<span class="op">/</span><span class="fl">4.0</span> <span class="kw">or</span> s <span class="op">&gt;</span> b:  
-            bisect <span class="op">=</span> <span class="va">True</span>
-        <span class="cf">elif</span> mflag <span class="kw">and</span> <span class="bu">abs</span>(s<span class="op">-</span>b) <span class="op">&gt;=</span> <span class="bu">abs</span>((b<span class="op">-</span>c)<span class="op">/</span><span class="fl">2.0</span>):
-            bisect <span class="op">=</span> <span class="va">True</span>
-        <span class="cf">elif</span> <span class="kw">not</span> mflag <span class="kw">and</span> <span class="bu">abs</span>(s<span class="op">-</span>b) <span class="op">&gt;=</span> <span class="bu">abs</span>((c<span class="op">-</span>d)<span class="op">/</span><span class="fl">2.0</span>):
-            bisect <span class="op">=</span> <span class="va">True</span>
-        <span class="cf">elif</span> mflag <span class="kw">and</span> <span class="bu">abs</span>(b<span class="op">-</span>c) <span class="op">&lt;</span> abserr:
-            bisect <span class="op">=</span> <span class="va">True</span>
-        <span class="cf">elif</span> <span class="kw">not</span> mflag <span class="kw">and</span> <span class="bu">abs</span>(c<span class="op">-</span>d)<span class="op">&lt;</span> abserr:
-            bisect <span class="op">=</span> <span class="va">True</span>
+        #see if we need to switch to bisection 
+        if s &lt; (3.0*a + b)/4.0 or s &gt; b:  
+            bisect = True
+        elif mflag and abs(s-b) &gt;= abs((b-c)/2.0):
+            bisect = True
+        elif not mflag and abs(s-b) &gt;= abs((c-d)/2.0):
+            bisect = True
+        elif mflag and abs(b-c) &lt; abserr:
+            bisect = True
+        elif not mflag and abs(c-d)&lt; abserr:
+            bisect = True
 
-        <span class="co"># do bisection if we should</span>
-        <span class="cf">if</span> bisect:  
-            s <span class="op">=</span> a <span class="op">+</span> (b<span class="op">-</span>a)<span class="op">/</span><span class="fl">2.0</span>
-            mflag <span class="op">=</span> <span class="va">True</span>
-        <span class="cf">else</span>:
-            mflag <span class="op">=</span> <span class="va">False</span>
+        # do bisection if we should
+        if bisect:  
+            s = a + (b-a)/2.0
+            mflag = True
+        else:
+            mflag = False
         
-        <span class="co">#set up for next iteration</span>
-        fs <span class="op">=</span> f(s)
-        num_func_evals <span class="op">+=</span> <span class="dv">1</span>
-        d <span class="op">=</span> c
-        c <span class="op">=</span> b
-        fc <span class="op">=</span> fb
-        <span class="cf">if</span> fa<span class="op">*</span>fs <span class="op">&lt;</span> <span class="fl">0.0</span>:
-            b <span class="op">=</span> s
-            fb <span class="op">=</span> fs
-        <span class="cf">else</span>:
-            a <span class="op">=</span> s
-            fa <span class="op">=</span> fs
-        <span class="cf">if</span> <span class="bu">abs</span>(fa) <span class="op">&lt;</span> <span class="bu">abs</span>(fb):
-            temp <span class="op">=</span> a
-            a <span class="op">=</span> b
-            b <span class="op">=</span> temp
-            temp <span class="op">=</span> fa
-            fa <span class="op">=</span> fb
-            fb <span class="op">=</span> temp
+        #set up for next iteration
+        fs = f(s)
+        num_func_evals += 1
+        d = c
+        c = b
+        fc = fb
+        if fa*fs &lt; 0.0:
+            b = s
+            fb = fs
+        else:
+            a = s
+            fa = fs
+        if abs(fa) &lt; abs(fb):
+            temp = a
+            a = b
+            b = temp
+            temp = fa
+            fa = fb
+            fb = temp
 
-        <span class="co"># check to see if we found a root or a pole or if we did the max function evaluations</span>
-        tol <span class="op">=</span> <span class="bu">max</span>(abserr, <span class="bu">abs</span>(b)<span class="op">*</span>relerr)
-        <span class="cf">if</span> <span class="bu">abs</span>((b<span class="op">-</span>a)<span class="op">/</span><span class="fl">2.0</span>) <span class="op">&lt;=</span> tol:
-            <span class="cf">if</span> <span class="bu">abs</span>(fb) <span class="op">&gt;</span> <span class="bu">abs</span>(<span class="fl">100.0</span><span class="op">*</span>initial_residual):
-                <span class="bu">print</span>(<span class="st">&quot;There is a pole at&quot;</span>, b)
-                <span class="cf">return</span>
-            <span class="cf">else</span>:
-                <span class="bu">print</span>(<span class="st">&quot; The root is&quot;</span>, b, <span class="st">&quot;and the function value at the root is&quot;</span>, fb)
-                <span class="bu">print</span>(<span class="st">&quot; The number of function calls:&quot;</span>, num_func_evals)
-                <span class="bu">print</span>(<span class="st">&quot;linear steps:&quot;</span>, lin, <span class="st">&quot;quadratic steps:&quot;</span>, quad)
-                <span class="cf">return</span>
-        <span class="cf">if</span> (num_func_evals <span class="op">&gt;=</span> max_func_evals):
-            <span class="bu">print</span>(<span class="st">&quot;Too much work. The number of function calls:&quot;</span>, num_func_evals)
-            <span class="bu">print</span>(<span class="st">&quot;There is a root between:&quot;</span>, a, b)
-            <span class="cf">return</span>
-        <span class="cf">if</span> <span class="bu">abs</span>(fb) <span class="op">==</span><span class="fl">0.0</span>:
-            <span class="bu">print</span>(<span class="st">&quot; The root is&quot;</span>, b)
-            <span class="bu">print</span>(<span class="st">&quot;and the function value at the root is&quot;</span>, fb)
-            <span class="bu">print</span>(<span class="st">&quot; The number of function calls:&quot;</span>, num_func_evals)
-            <span class="bu">print</span>(<span class="st">&quot;linear steps:&quot;</span>, lin, <span class="st">&quot;quadratic steps:&quot;</span>, quad)
-            <span class="cf">return</span>
+        # check to see if we found a root or a pole or if we did the max function evaluations
+        tol = max(abserr, abs(b)*relerr)
+        if abs((b-a)/2.0) &lt;= tol:
+            if abs(fb) &gt; abs(100.0*initial_residual):
+                print(&quot;There is a pole at&quot;, b)
+                return
+            else:
+                print(&quot; The root is&quot;, b, &quot;and the function value at the root is&quot;, fb)
+                print(&quot; The number of function calls:&quot;, num_func_evals)
+                print(&quot;linear steps:&quot;, lin, &quot;quadratic steps:&quot;, quad)
+                return
+        if (num_func_evals &gt;= max_func_evals):
+            print(&quot;Too much work. The number of function calls:&quot;, num_func_evals)
+            print(&quot;There is a root between:&quot;, a, b)
+            return
+        if abs(fb) ==0.0:
+            print(&quot; The root is&quot;, b)
+            print(&quot;and the function value at the root is&quot;, fb)
+            print(&quot; The number of function calls:&quot;, num_func_evals)
+            print(&quot;linear steps:&quot;, lin, &quot;quadratic steps:&quot;, quad)
+            return
 
 
-a <span class="op">=</span> <span class="op">-</span>.<span class="dv">5</span>
-b <span class="op">=</span> <span class="fl">7.5</span>
-relerr <span class="op">=</span> <span class="dv">1</span><span class="op">*</span><span class="dv">10</span><span class="op">**-</span><span class="dv">10</span>
-abserr <span class="op">=</span> <span class="dv">1</span><span class="op">*</span><span class="dv">10</span><span class="op">**-</span><span class="dv">10</span>
-brent(a, b, relerr, abserr)</code></pre></div>
+a = -.5
+b = 7.5
+relerr = 1*10**-10
+abserr = 1*10**-10
+brent(a, b, relerr, abserr)</code></pre>
 <pre><code>##  The root is 7.0000000001
 ## and the function value at the root is 0.0
 ##  The number of function calls: 3
 ## linear steps: 1 quadratic steps: 0</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> math
+<pre class="python"><code>import math
 
-<span class="kw">def</span> f(x):
-  <span class="cf">return</span> (x <span class="op">-</span> <span class="dv">1</span>)<span class="op">*</span>(x <span class="op">-</span> <span class="dv">2</span>)<span class="op">*</span>(x <span class="op">-</span> <span class="dv">3</span>)<span class="op">*</span>(x <span class="op">-</span> <span class="dv">4</span>)<span class="op">*</span>(x<span class="op">-</span> <span class="dv">5</span>)<span class="op">*</span>(x <span class="op">-</span> <span class="dv">6</span>)<span class="op">*</span>(x <span class="op">-</span> <span class="fl">7.0000000001</span>)<span class="co">#function for which root is desired</span>
+def f(x):
+  return (x - 1)*(x - 2)*(x - 3)*(x - 4)*(x- 5)*(x - 6)*(x - 7.0000000001)#function for which root is desired
 
-<span class="kw">def</span> LE_brent(a,b,relerr, abserr):
-<span class="co"># Calculates the root of an externally provided function f(x)</span>
-<span class="co"># in the interval [a,b]</span>
-<span class="co"># with specified relative and absolute error tolerances.</span>
-    max_func_evals <span class="op">=</span> <span class="dv">500</span> <span class="co">#the user should change this value if more evaluations are desired </span>
+def LE_brent(a,b,relerr, abserr):
+# Calculates the root of an externally provided function f(x)
+# in the interval [a,b]
+# with specified relative and absolute error tolerances.
+    max_func_evals = 500 #the user should change this value if more evaluations are desired 
 
-    <span class="co">#calculate machine epsilon and make sure tolerance is not too small</span>
-    epsilon <span class="op">=</span> <span class="fl">1.0</span>
-    <span class="cf">while</span> <span class="dv">1</span> <span class="op">+</span> epsilon <span class="op">&gt;</span> <span class="fl">1.0</span>:
-         epsilon <span class="op">=</span> epsilon <span class="op">/</span> <span class="fl">2.0</span>
-    epsilon <span class="op">=</span> <span class="fl">2.0</span> <span class="op">*</span> epsilon
-    <span class="cf">if</span> ((relerr <span class="op">&lt;</span> <span class="fl">10.0</span><span class="op">*</span>epsilon) <span class="kw">or</span> (abserr <span class="op">&lt;</span> <span class="fl">0.0</span>)):
-        <span class="bu">print</span>(<span class="st">&quot;Error in specifying the tolerances.&quot;</span>)
-        <span class="cf">return</span>
+    #calculate machine epsilon and make sure tolerance is not too small
+    epsilon = 1.0
+    while 1 + epsilon &gt; 1.0:
+         epsilon = epsilon / 2.0
+    epsilon = 2.0 * epsilon
+    if ((relerr &lt; 10.0*epsilon) or (abserr &lt; 0.0)):
+        print(&quot;Error in specifying the tolerances.&quot;)
+        return
 
-    fb <span class="op">=</span> f(b)
-    fa <span class="op">=</span> f(a)
-    num_func_evals <span class="op">=</span> <span class="dv">2</span>
-    initial_residual <span class="op">=</span> fb
-    quad <span class="op">=</span> <span class="dv">0</span>
-    lin <span class="op">=</span> <span class="dv">0</span>
+    fb = f(b)
+    fa = f(a)
+    num_func_evals = 2
+    initial_residual = fb
+    quad = 0
+    lin = 0
 
-    <span class="cf">while</span> num_func_evals <span class="op">&lt;</span> max_func_evals:
-        <span class="co"># use midpoint as third point</span>
-        c <span class="op">=</span> a <span class="op">+</span> (b<span class="op">-</span>a)<span class="op">/</span><span class="fl">2.0</span>
-        fc <span class="op">=</span> f(c)
-        <span class="cf">if</span> fa <span class="op">!=</span> fc <span class="kw">and</span> fb <span class="op">!=</span> fc:  <span class="co">#quadratic interpolation</span>
-            s <span class="op">=</span> (a<span class="op">*</span>fb<span class="op">*</span>fc)<span class="op">/</span>((fa<span class="op">-</span>fb)<span class="op">*</span>(fa<span class="op">-</span>fc)) <span class="op">+</span> (b<span class="op">*</span>fa<span class="op">*</span>fc)<span class="op">/</span>((fb<span class="op">-</span>fa)<span class="op">*</span>(fb<span class="op">-</span>fc)) <span class="op">+</span> (c<span class="op">*</span>fa<span class="op">*</span>fb)<span class="op">/</span>((fc<span class="op">-</span>fa)<span class="op">*</span>(fc<span class="op">-</span>fb))
-            quad <span class="op">+=</span><span class="dv">1</span>
-        <span class="cf">else</span>:   <span class="co"># linear (secant) interpolation</span>
-            s <span class="op">=</span> b <span class="op">-</span> fb <span class="op">*</span> (b<span class="op">-</span>a) <span class="op">/</span> (fb<span class="op">-</span>fa)
-            lin <span class="op">+=</span><span class="dv">1</span>
-        fs <span class="op">=</span> f(s)
-        num_func_evals <span class="op">+=</span> <span class="dv">2</span>
+    while num_func_evals &lt; max_func_evals:
+        # use midpoint as third point
+        c = a + (b-a)/2.0
+        fc = f(c)
+        if fa != fc and fb != fc:  #quadratic interpolation
+            s = (a*fb*fc)/((fa-fb)*(fa-fc)) + (b*fa*fc)/((fb-fa)*(fb-fc)) + (c*fa*fb)/((fc-fa)*(fc-fb))
+            quad +=1
+        else:   # linear (secant) interpolation
+            s = b - fb * (b-a) / (fb-fa)
+            lin +=1
+        fs = f(s)
+        num_func_evals += 2
         
-        <span class="co">#arrange points to keep root between a and b</span>
-        <span class="cf">if</span> c <span class="op">&gt;</span> s:
-            temp <span class="op">=</span> c
-            c <span class="op">=</span> s
-            s <span class="op">=</span> temp
-            temp <span class="op">=</span> fc
-            fc <span class="op">=</span> fs
-            fs <span class="op">=</span> temp
-        <span class="cf">if</span> fc <span class="op">*</span> fs <span class="op">&lt;</span> <span class="fl">0.0</span>:
-            a <span class="op">=</span> c
-            fa <span class="op">=</span> fc
-            b <span class="op">=</span> s
-            fb <span class="op">=</span> fs
-        <span class="cf">elif</span> fs <span class="op">*</span> fb <span class="op">&lt;</span> <span class="fl">0.0</span>:
-            a <span class="op">=</span> s
-            fa <span class="op">=</span> fs
-        <span class="cf">else</span>:
-            b <span class="op">=</span> c
-            fb <span class="op">=</span> fc
+        #arrange points to keep root between a and b
+        if c &gt; s:
+            temp = c
+            c = s
+            s = temp
+            temp = fc
+            fc = fs
+            fs = temp
+        if fc * fs &lt; 0.0:
+            a = c
+            fa = fc
+            b = s
+            fb = fs
+        elif fs * fb &lt; 0.0:
+            a = s
+            fa = fs
+        else:
+            b = c
+            fb = fc
 
-        tol <span class="op">=</span> <span class="bu">max</span>(abserr, <span class="bu">abs</span>(b)<span class="op">*</span>relerr)
+        tol = max(abserr, abs(b)*relerr)
         
 
-        <span class="cf">if</span> <span class="bu">abs</span>((b<span class="op">-</span>a)<span class="op">/</span><span class="fl">2.0</span>) <span class="op">&lt;=</span> tol:
-            <span class="cf">if</span> <span class="bu">abs</span>(fb) <span class="op">&gt;</span> <span class="bu">abs</span>(<span class="fl">100.0</span><span class="op">*</span>initial_residual):
-                <span class="bu">print</span>(<span class="st">&quot;There is a pole at&quot;</span>, b)
-                <span class="cf">return</span>
-            <span class="cf">else</span>:
-                <span class="bu">print</span>(<span class="st">&quot;The root is&quot;</span>, b)
-                <span class="bu">print</span>(<span class="st">&quot;and the function value at the root is&quot;</span>, fb)
-                <span class="bu">print</span>(<span class="st">&quot;The number of function evaluations:&quot;</span>, num_func_evals)
-                <span class="bu">print</span>(<span class="st">&quot;linear steps:&quot;</span>, lin, <span class="st">&quot;quadratic steps:&quot;</span>, quad)
-                <span class="cf">return</span>
-        <span class="cf">if</span> (num_func_evals <span class="op">&gt;=</span> max_func_evals):
-            <span class="bu">print</span>(<span class="st">&quot;Too much work. The number of function calls was&quot;</span>, num_func_evals)
-            <span class="bu">print</span>(<span class="st">&quot;There is a root between:&quot;</span>, a, b)
-            <span class="cf">return</span>
-        <span class="cf">if</span> <span class="bu">abs</span>(fb) <span class="op">==</span><span class="fl">0.0</span>:
-            <span class="bu">print</span>(<span class="st">&quot; The root is&quot;</span>, b)
-            <span class="bu">print</span>(<span class="st">&quot;and the function value at the root is&quot;</span>, fb)
-            <span class="bu">print</span>(<span class="st">&quot; The number of function evaluations:&quot;</span>, num_func_evals)
-            <span class="bu">print</span>(<span class="st">&quot;linear steps:&quot;</span>, lin, <span class="st">&quot;quadratic steps:&quot;</span>, quad)
-a <span class="op">=</span> <span class="op">-</span>.<span class="dv">5</span>
-b <span class="op">=</span> <span class="fl">7.5</span>
-relerr <span class="op">=</span> <span class="dv">1</span><span class="op">*</span><span class="dv">10</span><span class="op">**-</span><span class="dv">10</span>
-abserr <span class="op">=</span> <span class="dv">1</span><span class="op">*</span><span class="dv">10</span><span class="op">**-</span><span class="dv">10</span>
-LE_brent(a, b, relerr, abserr)</code></pre></div>
+        if abs((b-a)/2.0) &lt;= tol:
+            if abs(fb) &gt; abs(100.0*initial_residual):
+                print(&quot;There is a pole at&quot;, b)
+                return
+            else:
+                print(&quot;The root is&quot;, b)
+                print(&quot;and the function value at the root is&quot;, fb)
+                print(&quot;The number of function evaluations:&quot;, num_func_evals)
+                print(&quot;linear steps:&quot;, lin, &quot;quadratic steps:&quot;, quad)
+                return
+        if (num_func_evals &gt;= max_func_evals):
+            print(&quot;Too much work. The number of function calls was&quot;, num_func_evals)
+            print(&quot;There is a root between:&quot;, a, b)
+            return
+        if abs(fb) ==0.0:
+            print(&quot; The root is&quot;, b)
+            print(&quot;and the function value at the root is&quot;, fb)
+            print(&quot; The number of function evaluations:&quot;, num_func_evals)
+            print(&quot;linear steps:&quot;, lin, &quot;quadratic steps:&quot;, quad)
+a = -.5
+b = 7.5
+relerr = 1*10**-10
+abserr = 1*10**-10
+LE_brent(a, b, relerr, abserr)</code></pre>
 <pre><code>## The root is 1.0
 ## and the function value at the root is 0.0
 ## The number of function evaluations: 20
@@ -613,48 +565,48 @@ LE_brent(a, b, relerr, abserr)</code></pre></div>
 <li></li>
 </ol>
 <p>Brent:</p>
-<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html">(&#39; The root is&#39;, 0.8654740331016133, &#39;and the function value at the root is&#39;, 3.4416913763379853e-15)
+<pre class="html"><code>(&#39; The root is&#39;, 0.8654740331016133, &#39;and the function value at the root is&#39;, 3.4416913763379853e-15)
 (&#39; The number of function calls:&#39;, 35)
-(&#39;linear steps:&#39;, 31, &#39;quadratic steps:&#39;, 2)</code></pre></div>
+(&#39;linear steps:&#39;, 31, &#39;quadratic steps:&#39;, 2)</code></pre>
 <p>Le:</p>
-<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html">(&#39;The root is&#39;, 0.8654740331016145)
+<pre class="html"><code>(&#39;The root is&#39;, 0.8654740331016145)
 (&#39;and the function value at the root is&#39;, -2.220446049250313e-16)
 (&#39;The number of function evaluations:&#39;, 22)
-(&#39;linear steps:&#39;, 0, &#39;quadratic steps:&#39;, 10)</code></pre></div>
+(&#39;linear steps:&#39;, 0, &#39;quadratic steps:&#39;, 10)</code></pre>
 <p>Maple:</p>
-<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html">(&#39;The root is&#39;, 0.8654740331)</code></pre></div>
+<pre class="html"><code>(&#39;The root is&#39;, 0.8654740331)</code></pre>
 <ul>
 <li>Graph is a quadratic where the x = 0 and y = 1. As we can see, the Brent and Le algorithms are able to find the root of the function to the desired accuracy. We can see that it took the Brent algorithm 35 function evaluations while the Le was able to do it in 22 evaluations. They differ only at around 14 digits. It took Brent 31 linear steps while none for Le, for the quadratic steps, 2 for Brent but 10 for Le.</li>
 </ul>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Brent:</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html">(&#39; The root is&#39;, 7.0)
+<pre class="html"><code>(&#39; The root is&#39;, 7.0)
 (&#39;and the function value at the root is&#39;, 0.0)
 (&#39; The number of function calls:&#39;, 3)
-(&#39;linear steps:&#39;, 1, &#39;quadratic steps:&#39;, 0)</code></pre></div>
+(&#39;linear steps:&#39;, 1, &#39;quadratic steps:&#39;, 0)</code></pre>
 <p>Le:</p>
-<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html">(&#39;The root is&#39;, 1.0)
+<pre class="html"><code>(&#39;The root is&#39;, 1.0)
 (&#39;and the function value at the root is&#39;, 0.0)
 (&#39;The number of function evaluations:&#39;, 20)
-(&#39;linear steps:&#39;, 0, &#39;quadratic steps:&#39;, 9)</code></pre></div>
+(&#39;linear steps:&#39;, 0, &#39;quadratic steps:&#39;, 9)</code></pre>
 <p>Maple:</p>
-<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html">(&#39;The root is&#39;, 1,2,3,4,5,6,7)</code></pre></div>
+<pre class="html"><code>(&#39;The root is&#39;, 1,2,3,4,5,6,7)</code></pre>
 <ul>
 <li>Graph touches the x axis at x = 1, 2, 3, 4, 5, 6, 7. This is obvious from looking at the function itself. We can see that Brent and Le both landed only a root but stopped after finding one. They are correct in that sense. It took Brent quickly to reach the 7 while only 3 function evaluations, 1 linear step, and taking no quadratic. On the other hand, it took Le several(20) evaluations, no linear, and 9 quadratic steps to reach 1. In this case, Le is not more efficient.</li>
 </ul>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>Brent:</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html">(&#39; The root is&#39;, 0.9831404360069544)
+<pre class="html"><code>(&#39; The root is&#39;, 0.9831404360069544)
 (&#39;and the function value at the root is&#39;, 0.0)
 (&#39; The number of function calls:&#39;, 11)
-(&#39;linear steps:&#39;, 7, &#39;quadratic steps:&#39;, 2)</code></pre></div>
+(&#39;linear steps:&#39;, 7, &#39;quadratic steps:&#39;, 2)</code></pre>
 <p>Le:</p>
-<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html">(&#39; The root is&#39;, 1.0098393223851945)
+<pre class="html"><code>(&#39; The root is&#39;, 1.0098393223851945)
 (&#39;and the function value at the root is&#39;, -0.0)
 (&#39; The number of function calls:&#39;, 12)
-(&#39;linear steps:&#39;, 0, &#39;quadratic steps:&#39;, 5)</code></pre></div>
+(&#39;linear steps:&#39;, 0, &#39;quadratic steps:&#39;, 5)</code></pre>
 <p>Maple:</p>
 <ul>
 <li>Maple did not evaluate to any particular root. The graph shows this, when the y = 0 when x is between 0.5 and 1.5, meaning that all of these values are possible roots. We can see that the Brent and Le algorithm are within this range. It took the Brent 11 evaluations, 7 linear, and 2 quadratic while taking the Le 12 evaluation, no linear, and 5 quadratic. It’s difficult to say for certain that the Le is more efficient since quadratic steps are more complicated that linear. However from a pure calculation standpoint, it took the Brent (7 + 2) * 11 = 99 steps, while Le took 5(12) = 60 steps. A bit more efficient.</li>
@@ -663,25 +615,25 @@ LE_brent(a, b, relerr, abserr)</code></pre></div>
 <hr />
 </div>
 <div id="question-2" class="section level1">
-<h1>Question 2:</h1>
+<h1><span class="header-section-number">2</span> Question 2:</h1>
 <p>Modify the function from part b in problem 1 by changing <span class="math inline">\((x-7)\)</span> to <span class="math inline">\((x-7.0000000001)\)</span>, i.e. This is a very small perturbation of one root of this seventh degree polynomial. Run Brent and Le again. Do you find the same roots with the same amount of work on the part of the program? Describe what happens.</p>
 <p>1b) Brent:</p>
-<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html">(&#39; The root is&#39;, 7.0000000001)
+<pre class="html"><code>(&#39; The root is&#39;, 7.0000000001)
 (&#39;and the function value at the root is&#39;, 0.0)
 (&#39; The number of function calls:&#39;, 3)
-(&#39;linear steps:&#39;, 1, &#39;quadratic steps:&#39;, 0)</code></pre></div>
+(&#39;linear steps:&#39;, 1, &#39;quadratic steps:&#39;, 0)</code></pre>
 <p>Le:</p>
-<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html">(&#39;The root is&#39;, 1.0)
+<pre class="html"><code>(&#39;The root is&#39;, 1.0)
 (&#39;and the function value at the root is&#39;, 0.0)
 (&#39;The number of function evaluations:&#39;, 20)
-(&#39;linear steps:&#39;, 0, &#39;quadratic steps:&#39;, 9)</code></pre></div>
+(&#39;linear steps:&#39;, 0, &#39;quadratic steps:&#39;, 9)</code></pre>
 <ul>
 <li>We found that the small pertubation of one root does not show any effect on both algorithms. The Brent algorithm’s root just changes to 7.0000000001 from the previous 7. While the Le algorithm has no change. No increase or decrease on function evaluation, linear, and quadratic steps.</li>
 </ul>
 <hr />
 </div>
 <div id="question-3" class="section level1">
-<h1>Question 3:</h1>
+<h1><span class="header-section-number">3</span> Question 3:</h1>
 <p>Suppose we want to write code to find the (positive) square root and cube root of a number, <span class="math inline">\(a\)</span>. We can find these two numbers by finding the roots of:</p>
 <ul>
 <li><p><span class="math inline">\(f(x) = x^2 - a\)</span></p></li>
@@ -689,7 +641,7 @@ LE_brent(a, b, relerr, abserr)</code></pre></div>
 </ul>
 <p>We can create a designer code using Newton’s Method. For example, for <span class="math inline">\(f(x) = x^2 - a\)</span>, the Newton iteration is <span class="math display">\[ x_{new} = x - \frac{f(x)}{f&#39;(x)} = x - \frac{x^2 - a}{2x}\]</span> For <span class="math inline">\(f(x) = x^3- a\)</span>, the Newton iteration is <span class="math display">\[ x_{new} = x - \frac{f(x)}{f&#39;(x)} = x - \frac{x^3 - a}{3x^2}\]</span></p>
 <p>Use this idea to write an efficient code to print out the square root and cube root of <span class="math inline">\(a\)</span> correct to <span class="math inline">\(0.00001\)</span>, using <span class="math inline">\(a/2\)</span> as the initial <span class="math inline">\(x\)</span>-value for the square root and <span class="math inline">\(a/3\)</span> as the initial <span class="math inline">\(x\)</span>-value for the cube root. Simplify the Newton step so that there are no subtractions to avoid possible cancellation error. Test your code on a variety of numbers between 0 and 1000. Use the following function definition statement:</p>
-<div class="sourceCode"><pre class="sourceCode html"><code class="sourceCode html">def roots(a):</code></pre></div>
+<pre class="html"><code>def roots(a):</code></pre>
 <p>The code should print the following statement (assuming 5 was input as a):</p>
 <p>``The square and cube roots of 5 are: 2.23606798 and 1.70997595’’</p>
 <ul>
@@ -698,17 +650,17 @@ LE_brent(a, b, relerr, abserr)</code></pre></div>
 <p><span class="math display">\[(((xnew - x) * -nx^{n - 1} ) - x^n) * -1 = a\]</span></p>
 <p>(a)^(1/2) = square. So for example, we want the square root of 5. We will take the initial value of x = 5/2 = 2.5, We then feed this into to loop. We square this, so (2.5)^2 = 6.25, add the original number, 5. So 6.25 + 5 = 11.25, then divide by 2x, 11.25/(2* 2.5) = 2.25 as our xnew value. Compare to the real sqrt(5) = 2.3606.</p>
 <p>(a)^(1/3) = cubic</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> roots(a):
-  sx <span class="op">=</span> a<span class="op">/</span><span class="dv">2</span>
-  cx <span class="op">=</span> a<span class="op">/</span><span class="dv">3</span>
-  max_its <span class="op">=</span> <span class="dv">100</span>
-  <span class="cf">for</span> its <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>,max_its<span class="op">+</span><span class="dv">1</span>):
-    sx <span class="op">=</span> (sx<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> a)<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>sx) 
-    cx <span class="op">=</span> (<span class="dv">2</span><span class="op">*</span>cx<span class="op">**</span><span class="dv">3</span> <span class="op">+</span> a)<span class="op">/</span>(<span class="dv">3</span><span class="op">*</span>cx<span class="op">**</span><span class="dv">2</span>)
-  <span class="cf">if</span> (<span class="bu">abs</span>(sx<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> a) <span class="op">&lt;</span> .<span class="dv">00001</span> <span class="kw">and</span> <span class="bu">abs</span>(cx<span class="op">**</span><span class="dv">3</span><span class="op">-</span>a) <span class="op">&lt;</span> .<span class="dv">00001</span>):
-    <span class="bu">print</span>(<span class="st">&quot;The square and cube roots of 5 are&quot;</span>, sx,<span class="st">&quot;and&quot;</span>, cx)
+<pre class="python"><code>def roots(a):
+  sx = a/2
+  cx = a/3
+  max_its = 100
+  for its in range(1,max_its+1):
+    sx = (sx**2 + a)/(2*sx) 
+    cx = (2*cx**3 + a)/(3*cx**2)
+  if (abs(sx**2 - a) &lt; .00001 and abs(cx**3-a) &lt; .00001):
+    print(&quot;The square and cube roots of 5 are&quot;, sx,&quot;and&quot;, cx)
 
-roots(<span class="dv">8</span>)</code></pre></div>
+roots(8)</code></pre>
 <pre><code>## The square and cube roots of 5 are 2.82842712474619 and 2.0</code></pre>
 <p><a href="https://repl.it/@ongjk/TubbyWrithingRuntimeerror" class="uri">https://repl.it/@ongjk/TubbyWrithingRuntimeerror</a></p>
 <p><span class="math display">\[ x_{new} = x - \frac{f(x)}{f&#39;(x)} = x - \frac{x^2 - a}{2x} = x* \frac{2x}{2x} - \frac{x^2 - a}{2x} = \frac{2x^2}{2x} - \frac{x^2 - a}{2x} = \frac{x^2 + a}{2x} \]</span> So this is the formula for the square root Newton’s Method. The cube root on the other hand is this,</p>
