@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jefferson Ong, Jayne Hollar, Céline Prunet" />
+
+
+<title>Statistical Models on Housing</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #303030; color: #cccccc; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #cccccc; background-color: #303030; }
+code > span.kw { color: #f0dfaf; } /* Keyword */
+code > span.dt { color: #dfdfbf; } /* DataType */
+code > span.dv { color: #dcdccc; } /* DecVal */
+code > span.bn { color: #dca3a3; } /* BaseN */
+code > span.fl { color: #c0bed1; } /* Float */
+code > span.ch { color: #dca3a3; } /* Char */
+code > span.st { color: #cc9393; } /* String */
+code > span.co { color: #7f9f7f; } /* Comment */
+code > span.ot { color: #efef8f; } /* Other */
+code > span.al { color: #ffcfaf; } /* Alert */
+code > span.fu { color: #efef8f; } /* Function */
+code > span.er { color: #c3bf9f; } /* Error */
+code > span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+code > span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code > span.sc { color: #dca3a3; } /* SpecialChar */
+code > span.vs { color: #cc9393; } /* VerbatimString */
+code > span.ss { color: #cc9393; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #f0dfaf; } /* ControlFlow */
+code > span.op { color: #f0efd0; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #7f9f7f; } /* Documentation */
+code > span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code > span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code > span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Jefferson Ong</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="JeffersonOngResume.html">Resume</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Projects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="supervise.html">Divorce Predictor Data</a>
+    </li>
+    <li>
+      <a href="WriteUp.html">Breast Cancer Data</a>
+    </li>
+    <li>
+      <a href="house.html">Housing Data in Oregon</a>
+    </li>
+    <li>
+      <a href="Project2.html">Statistical Methods on Housing Data</a>
+    </li>
+    <li>
+      <a href="Research.html">Microtonal Research</a>
+    </li>
+    <li>
+      <a href="nume.html">Root Finding &amp; Interpolation</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="about.html">Research Interest</a>
+</li>
+<li>
+  <a href="Contacts.html">Contacts</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/ongjk">
+    <span class="fa fa-github fa-lg"></span>
+     
+    
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Statistical Models on Housing</h1>
+<h4 class="author">Jefferson Ong, Jayne Hollar, Céline Prunet</h4>
+<h4 class="date">09 May, 2020</h4>
+
+</div>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>We will be looking at a housing dataset from Oregon. We are going to be building models to predict the price of a particular house in Oregon using predictor variables such as the size of the house, how many bathrooms it has, the year it was built, etc.</p>
+<p>We have already looked at this dataset from the previous project and taking the final linear regression model and comparing it to other model methods. We will be using MSE to evaluate the model’s performance and see which one is the most accurate.</p>
+<div id="libraries" class="section level2 unnumbered">
+<h2>Libraries</h2>
+<p>We will be using these libraries to load in the necessary functions for the particular model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readxl)
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(leaps)
+<span class="kw">library</span>(glmnet)
+<span class="kw">library</span>(pls)
+house &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span class="st">&quot;Housing.xlsx&quot;</span>)</code></pre></div>
+</div>
+</div>
+<div id="model-candidates" class="section level1">
+<h1>Model Candidates</h1>
+<div id="a-previous-model" class="section level2">
+<h2>(a) Previous Model</h2>
+<p>This is the final model from the previous project. We arrived at this conclusion after EDA of the dataset then comparing and testing different variations of a linear regression model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">modelf &lt;-<span class="st"> </span><span class="kw">lm</span>(price <span class="op">~</span><span class="st"> </span>elem <span class="op">+</span><span class="st"> </span>status <span class="op">+</span><span class="st"> </span>size <span class="op">+</span><span class="st"> </span>bedrooms, house)</code></pre></div>
+</div>
+<div id="b-forward-selection" class="section level2">
+<h2>(b) Forward Selection</h2>
+<div id="tuning-parameter-for-forward-selection" class="section level3 unnumbered">
+<h3>Tuning Parameter for Forward Selection</h3>
+<p>We will be using the <code>regsubsets()</code> function to subset dataset depending on the number of variables it has, in this case we have 14, so we’re setting <code>nvmax = 14</code> which lets us examine all the variables. We want to optimize how many variables our model uses. We will use four metrics to evaluate this: <code>R-Squared</code>, <code>Adjusted RSq</code>, <code>Cp</code> and <code>BIC</code>. We know that <code>Cp</code> and <code>BIC</code> are unbiased estimate for the predicted error for MSE. We can see that the curve hits the lowest value at 6 variables for both <code>Cp</code> and <code>BIC</code>. We can make sure of this with the <code>which.min()</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">regfit.full &lt;-<span class="st"> </span><span class="kw">regsubsets</span>(price <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> house, <span class="dt">nvmax =</span> <span class="dv">14</span>)</code></pre></div>
+<pre><code>Reordering variables and trying again:</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">reg.summary &lt;-<span class="st"> </span><span class="kw">summary</span>(regfit.full)
+<span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))
+<span class="kw">plot</span>(reg.summary<span class="op">$</span>rsq,<span class="dt">xlab=</span><span class="st">&quot;Number of Variables&quot;</span>,<span class="dt">ylab =</span> <span class="st">&quot;R-squared&quot;</span>,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)
+<span class="kw">plot</span>(reg.summary<span class="op">$</span>adjr2,<span class="dt">xlab=</span><span class="st">&quot;Number of Variables&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Adjusted RSq&quot;</span>,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)
+<span class="kw">points</span>(<span class="dv">9</span>,reg.summary<span class="op">$</span>adjr2[<span class="dv">9</span>], <span class="dt">col=</span><span class="st">&quot;red&quot;</span>,<span class="dt">cex=</span><span class="dv">2</span>,<span class="dt">pch=</span><span class="dv">20</span>)
+<span class="kw">plot</span>(reg.summary<span class="op">$</span>cp,<span class="dt">xlab=</span><span class="st">&quot;Number of Variables&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;Cp&quot;</span>,<span class="dt">type=</span><span class="st">&#39;l&#39;</span>)
+<span class="kw">points</span>(<span class="dv">6</span>,reg.summary<span class="op">$</span>cp[<span class="dv">6</span>],<span class="dt">col=</span><span class="st">&quot;red&quot;</span>,<span class="dt">cex=</span><span class="dv">2</span>,<span class="dt">pch=</span><span class="dv">20</span>)
+<span class="kw">plot</span>(reg.summary<span class="op">$</span>bic,<span class="dt">xlab=</span><span class="st">&quot;Number of Variables&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;BIC&quot;</span>,<span class="dt">type=</span><span class="st">&#39;l&#39;</span>)
+<span class="kw">points</span>(<span class="dv">6</span>,reg.summary<span class="op">$</span>bic[<span class="dv">6</span>],<span class="dt">col=</span><span class="st">&quot;red&quot;</span>,<span class="dt">cex=</span><span class="dv">2</span>,<span class="dt">pch=</span><span class="dv">20</span>)</code></pre></div>
+<p><img src="Project2_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which.max</span>(reg.summary<span class="op">$</span>rsq)</code></pre></div>
+<pre><code>[1] 14</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which.max</span>(reg.summary<span class="op">$</span>adjr2)</code></pre></div>
+<pre><code>[1] 9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which.min</span>(reg.summary<span class="op">$</span>cp)</code></pre></div>
+<pre><code>[1] 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which.min</span>(reg.summary<span class="op">$</span>bic)</code></pre></div>
+<pre><code>[1] 6</code></pre>
+</div>
+<div id="forward-selection-model" class="section level3">
+<h3>Forward Selection Model</h3>
+<p>Once we know the number of variables that is optimal for the model, we will use the forward selection method to choose which predictor variables will be best to use. The forward selection adds one predictor variable at each iteration base on how significant it is. SO it selects the best one predictor model, then the best 2 predictor model, etc. until the model doesn’t improve anymore. We can see with the BIC graph which predictors has the lowest BIC. Using the <code>coef()</code> function, this will show us the best 6 predictor model using the forward selection method.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">regfit.f &lt;-<span class="st"> </span><span class="kw">regsubsets</span>(price <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> house, <span class="dt">nvmax =</span> <span class="dv">6</span>, <span class="dt">method =</span> <span class="st">&quot;forward&quot;</span>)</code></pre></div>
+<pre><code>Reordering variables and trying again:</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(regfit.f)</code></pre></div>
+<pre><code>Subset selection object
+Call: regsubsets.formula(price ~ ., data = house, nvmax = 6, method = &quot;forward&quot;)
+15 Variables  (and intercept)
+                Forced in Forced out
+id                  FALSE      FALSE
+size                FALSE      FALSE
+lot                 FALSE      FALSE
+bath                FALSE      FALSE
+bedrooms            FALSE      FALSE
+yearbuilt           FALSE      FALSE
+garagesize          FALSE      FALSE
+statuspen           FALSE      FALSE
+statussld           FALSE      FALSE
+elemcrest           FALSE      FALSE
+elemedge            FALSE      FALSE
+elemedison          FALSE      FALSE
+elemharris          FALSE      FALSE
+elemparker          FALSE      FALSE
+agestandardized     FALSE      FALSE
+1 subsets of each size up to 7
+Selection Algorithm: forward
+         id  size lot bath bedrooms yearbuilt agestandardized garagesize
+1  ( 1 ) &quot; &quot; &quot; &quot;  &quot; &quot; &quot; &quot;  &quot; &quot;      &quot; &quot;       &quot; &quot;             &quot;*&quot;       
+2  ( 1 ) &quot; &quot; &quot; &quot;  &quot; &quot; &quot; &quot;  &quot; &quot;      &quot; &quot;       &quot; &quot;             &quot;*&quot;       
+3  ( 1 ) &quot; &quot; &quot; &quot;  &quot; &quot; &quot; &quot;  &quot; &quot;      &quot; &quot;       &quot; &quot;             &quot;*&quot;       
+4  ( 1 ) &quot; &quot; &quot; &quot;  &quot;*&quot; &quot; &quot;  &quot; &quot;      &quot; &quot;       &quot; &quot;             &quot;*&quot;       
+5  ( 1 ) &quot; &quot; &quot; &quot;  &quot;*&quot; &quot; &quot;  &quot; &quot;      &quot; &quot;       &quot; &quot;             &quot;*&quot;       
+6  ( 1 ) &quot; &quot; &quot;*&quot;  &quot;*&quot; &quot; &quot;  &quot; &quot;      &quot; &quot;       &quot; &quot;             &quot;*&quot;       
+7  ( 1 ) &quot; &quot; &quot;*&quot;  &quot;*&quot; &quot; &quot;  &quot;*&quot;      &quot; &quot;       &quot; &quot;             &quot;*&quot;       
+         statuspen statussld elemcrest elemedge elemedison elemharris
+1  ( 1 ) &quot; &quot;       &quot; &quot;       &quot; &quot;       &quot; &quot;      &quot; &quot;        &quot; &quot;       
+2  ( 1 ) &quot; &quot;       &quot; &quot;       &quot; &quot;       &quot; &quot;      &quot;*&quot;        &quot; &quot;       
+3  ( 1 ) &quot; &quot;       &quot; &quot;       &quot; &quot;       &quot; &quot;      &quot;*&quot;        &quot;*&quot;       
+4  ( 1 ) &quot; &quot;       &quot; &quot;       &quot; &quot;       &quot; &quot;      &quot;*&quot;        &quot;*&quot;       
+5  ( 1 ) &quot; &quot;       &quot;*&quot;       &quot; &quot;       &quot; &quot;      &quot;*&quot;        &quot;*&quot;       
+6  ( 1 ) &quot; &quot;       &quot;*&quot;       &quot; &quot;       &quot; &quot;      &quot;*&quot;        &quot;*&quot;       
+7  ( 1 ) &quot; &quot;       &quot;*&quot;       &quot; &quot;       &quot; &quot;      &quot;*&quot;        &quot;*&quot;       
+         elemparker
+1  ( 1 ) &quot; &quot;       
+2  ( 1 ) &quot; &quot;       
+3  ( 1 ) &quot; &quot;       
+4  ( 1 ) &quot; &quot;       
+5  ( 1 ) &quot; &quot;       
+6  ( 1 ) &quot; &quot;       
+7  ( 1 ) &quot; &quot;       </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(regfit.f)</code></pre></div>
+<p><img src="Project2_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coef</span>(regfit.f,<span class="dv">6</span>)</code></pre></div>
+<pre><code>(Intercept)        size         lot   statuspen   elemcrest  elemharris 
+ 119.073017   57.516429   12.809372   10.278640   -7.715081   45.048996 
+ elemparker 
+ -36.096131 </code></pre>
+</div>
+</div>
+<div id="c-creating-training-and-test-set" class="section level2">
+<h2>(c) Creating training and test set</h2>
+<p>We’ve evenly split the housing dataset which has has around 76 observations in total.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Make the process able to be reproduced.</span>
+<span class="kw">set.seed</span>(<span class="dv">1</span>)
+
+<span class="co"># Select the training and test data sets.</span>
+index &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">nrow</span>(house), <span class="kw">nrow</span>(house) <span class="op">*</span><span class="st"> </span>.<span class="dv">5</span>, <span class="dt">replace =</span> F)
+train &lt;-<span class="st"> </span>house[index ,]
+test &lt;-<span class="st"> </span>house[<span class="op">-</span>index ,]</code></pre></div>
+</div>
+<div id="d-using-trainingtest-for-regsubsets" class="section level2">
+<h2>(d) Using Training/Test for <code>regsubsets</code></h2>
+<p>We will now use our training and test data to figure out how many predictor variables our model should have using the <code>regsubsets()</code> compare to before where we use the metrics <code>Cp</code> and <code>BIC</code>. We ran the function over the training set then created a matrix model for the testing set to compare our <code>regsubsets</code> model using the training data. We get a set of validation errors from the training models and predicted into the outcomes in our test set, similar to how we’re predicting for simple linear models. We want the model with the lowest validation error.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Run the regsubsets command to get the &quot;best&quot; model with each possible number of predictors (on the training data).  Note that we are not using stepwise selections here.</span>
+regfit.best &lt;-<span class="st"> </span><span class="kw">regsubsets</span>(price <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> train, <span class="dt">nvmax =</span> <span class="dv">14</span>)</code></pre></div>
+<pre><code>Reordering variables and trying again:</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># This creates a model matrix for our regression model for the test data.  This is a useful format for many regression procedures.</span>
+test.mat &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(price <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> test)
+<span class="co"># Setup a vector to store the validation errors.  We&#39;ll store the validation errors for each of the 14 models from the previous steps.</span>
+val.errors &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,<span class="dv">14</span>)
+<span class="co"># This for loop takes the coefficients for each of the 14 models, uses them to predict the outcomes in the test data set, and then calculates the test MSE of those predictions.</span>
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">14</span>){
+  coefi=<span class="kw">coef</span>(regfit.best,<span class="dt">id=</span>i)
+  pred=test.mat[,<span class="kw">names</span>(coefi)]<span class="op">%*%</span>coefi
+  val.errors[i] &lt;-<span class="st"> </span><span class="kw">mean</span>((test<span class="op">$</span>price<span class="op">-</span>pred)<span class="op">^</span><span class="dv">2</span>)
+}
+
+<span class="co"># List the validation errors.</span>
+val.errors</code></pre></div>
+<pre><code> [1] 4549.240 4611.069 3790.141 3817.808 3923.469 3781.748 3529.826 3018.360
+ [9] 2868.006 2871.164 2843.805 2847.292 2877.527 2877.527</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># List the model with the smallest validation error.</span>
+<span class="kw">which.min</span>(val.errors)</code></pre></div>
+<pre><code>[1] 11</code></pre>
+<p>The smallest validation error can also be thought of as the mean square error for this particular model.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#  Get the coefficients of the model with the smallest validation error.</span>
+<span class="kw">coef</span>(regfit.best,<span class="kw">which.min</span>(val.errors))</code></pre></div>
+<pre><code>(Intercept)          id        size         lot        bath    bedrooms 
+ 41.4071662  -0.1586321  94.0878640  15.0218189  -4.8939796  -6.5256465 
+  statussld   elemcrest    elemedge  elemedison  elemharris  elemparker 
+-33.6034346  67.8868939  41.3989173 114.6011000  98.0172032  12.6973212 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MSE &lt;-<span class="st"> </span>val.errors[<span class="kw">which.min</span>(val.errors)]
+d &lt;-<span class="st"> </span><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;MSE: &quot;</span>,<span class="kw">round</span>(MSE, <span class="dv">4</span>)))</code></pre></div>
+<pre><code>[1] &quot;MSE:  2843.8046&quot;</code></pre>
+</div>
+<div id="e-ridge-regression" class="section level2">
+<h2>(e) Ridge Regression</h2>
+<p>In ridge regression and lasso regression, we are considering modifications with constraints to the classic regression model. The constraints forces your parameter estimates to be close to 0 because for some lambda to be greater than 0, we optimize the sum of squared errors plus lambda times the sum of squared betas for each of the predictors in the model. Ridge regression has effectively a penalty term and an incentive for models to be chosen with smaller betas that still accomplishes a fairly similar sum of squares than an ordinary least squares would do.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
+x=<span class="kw">model.matrix</span>(price<span class="op">~</span>.,house)[,<span class="op">-</span><span class="dv">1</span>]
+y=house<span class="op">$</span>price
+<span class="co"># Ridge Regression</span>
+<span class="co"># Setup the lambda values that we&#39;ll test.  This is a very comprehensive list.</span>
+grid=<span class="dv">10</span><span class="op">^</span><span class="kw">seq</span>(<span class="dv">10</span>,<span class="op">-</span><span class="dv">2</span>,<span class="dt">length=</span><span class="dv">100</span>)
+<span class="co"># This uses the GLMNET function to fit ridge regression.  By default this method standardizes each of the variables before fitting the model.</span>
+<span class="kw">set.seed</span>(<span class="dv">1</span>)
+train=<span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(x), <span class="kw">nrow</span>(x)<span class="op">/</span><span class="dv">2</span>)
+test=(<span class="op">-</span>train)
+y.test=y[test]
+ridge.mod=<span class="kw">glmnet</span>(x[train,],y[train],<span class="dt">alpha=</span><span class="dv">0</span>,<span class="dt">lambda=</span>grid, <span class="dt">thresh=</span><span class="fl">1e-12</span>)</code></pre></div>
+<p>Here, we used the model matrix command where we modeled the price as a function of everything else. We used [,-1] to get rid of the intercept. Our response variable, <code>y</code>, is the <code>price</code> of the <code>house</code>. Since lambda is a value we can chose as the tuning parameter, we created a grid of lambdas to evaluate different choices of lambdas. We then have to apply validation set approach to try to figure out what the right level of lambda is. We set the seed and then split our data into a training set and a testing set. Our outcome for the test data is called <code>y.test</code>. Then, we ran <code>glmnet</code> to fit our rig regression model. We then used the function <code>cv.glmnet</code> to choose a span of lambdas and cross validated the set of lambda values we should use.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cv.out=<span class="kw">cv.glmnet</span>(x[train,],y[train],<span class="dt">alpha=</span><span class="dv">0</span>)
+<span class="kw">plot</span>(cv.out)</code></pre></div>
+<p><img src="Project2_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bestlam=<span class="kw">round</span>(cv.out<span class="op">$</span>lambda.min, <span class="dv">4</span>)</code></pre></div>
+<p>Plotting the span of lambdas gave us a mean squared prediction error for the rig regression model done using cross validation and shows us how those change as a function of lambda on the log scale. The bounded region are the reasonable lambdas that we should consider. This gave us an idea that the cross validation errors are pretty comparable from close to 2.80 to about 5.80. Once lambda gets larger than that, there is inaccuracy in the prediction. From this, we can actually get an estimate of the best level of lambda. The best lambda is the minimum lambda with the minimum cross validation error. Our’s is minimized at around 18.3387.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using the best-lambda chosen from cross-validation, we&#39;ll fit the test data in our validation set approach</span>
+ridge.pred=<span class="kw">predict</span>(ridge.mod,<span class="dt">s=</span>bestlam,<span class="dt">newx=</span>x[test,])
+<span class="co"># Using the best-lambda chosen from cross validation we will calculate the test MSE for the test data.</span>
+<span class="kw">mean</span>((ridge.pred<span class="op">-</span>y.test)<span class="op">^</span><span class="dv">2</span>)</code></pre></div>
+<pre><code>[1] 2592.738</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">out=<span class="kw">glmnet</span>(x,y,<span class="dt">alpha=</span><span class="dv">0</span>)
+<span class="kw">predict</span>(out,<span class="dt">type=</span><span class="st">&quot;coefficients&quot;</span>,<span class="dt">s=</span>bestlam)[<span class="dv">1</span><span class="op">:</span><span class="dv">14</span>,]</code></pre></div>
+<pre><code>    (Intercept)              id            size             lot            bath 
+    86.30936202     -0.08988223     49.54599958      7.23418295      7.68324259 
+       bedrooms       yearbuilt agestandardized      garagesize       statuspen 
+   -10.12803541      0.04418881      0.43582957     10.47330000     -3.85546591 
+      statussld       elemcrest        elemedge      elemedison 
+   -21.79552431     -4.12300854    -13.29593148     47.62880242 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">MSE &lt;-<span class="st"> </span><span class="kw">mean</span>((ridge.pred<span class="op">-</span>y.test)<span class="op">^</span><span class="dv">2</span>)
+
+e &lt;-<span class="st"> </span><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;MSE: &quot;</span>,<span class="kw">round</span>(MSE, <span class="dv">4</span>)))</code></pre></div>
+<pre><code>[1] &quot;MSE:  2592.7385&quot;</code></pre>
+<p>Above, we plugged in the best level of lambda into our training test split from earlier and got our mean squared prediction error of MSE: 2592.7385 for our particular split. Our next chunk of code is us getting the coefficients of the regression model for the lambda that best fits. Finally, we see that our MSE is MSE: 2592.7385. This is a better than our third model who’s MSE was MSE: 2843.8046. The lower the MSE the better the model.</p>
+<div id="f-principal-components-regression" class="section level3">
+<h3>(f) Principal Components Regression</h3>
+<p>We will be using the <code>pls</code> package to use the <code>pcr()</code> function. The principal components model calculates the linear combinations of the original variables. It is used to create models that minimizes multicollinearity between predictors and attempts to mitigate overfitting. Below, we’re set up a <code>pcr</code> model using cross validation then choosing the model with the optimal components.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2</span>)
+pcr.fit=<span class="kw">pcr</span>(price<span class="op">~</span>., <span class="dt">data=</span>house,<span class="dt">scale=</span><span class="ot">TRUE</span>,<span class="dt">validation=</span><span class="st">&quot;CV&quot;</span>)
+<span class="kw">validationplot</span>(pcr.fit,<span class="dt">val.type=</span><span class="st">&quot;MSEP&quot;</span>)</code></pre></div>
+<p><img src="Project2_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">which.min</span>(<span class="kw">RMSEP</span>(pcr.fit)<span class="op">$</span>val[<span class="dv">1</span>,,]) <span class="op">-</span><span class="st"> </span><span class="dv">1</span></code></pre></div>
+<pre><code>8 comps 
+      8 </code></pre>
+<p>Based on the graph above, the value when M = 8 is the lowest, so we use 8 components. Below is our PCR model using 8 components. Then we predicted the 8 component model unto the test data, allowing us to calculate the MSE.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pcr.fit=<span class="kw">pcr</span>(y<span class="op">~</span>x,<span class="dt">scale=</span><span class="ot">TRUE</span>,<span class="dt">ncomp=</span><span class="dv">8</span>)
+<span class="kw">summary</span>(pcr.fit)</code></pre></div>
+<pre><code>Data:   X dimension: 76 15 
+    Y dimension: 76 1
+Fit method: svdpc
+Number of components considered: 8
+TRAINING: % variance explained
+   1 comps  2 comps  3 comps  4 comps  5 comps  6 comps  7 comps  8 comps
+X   23.903   36.706     46.9    56.65    65.20    72.80    79.52    85.25
+y    6.704    7.681     11.0    11.05    18.07    32.49    46.95    47.65</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pcr.pred=<span class="kw">predict</span>(pcr.fit, x[test,],<span class="dt">ncomp=</span><span class="dv">8</span>)
+MSE &lt;-<span class="st"> </span><span class="kw">mean</span>((pcr.pred<span class="op">-</span>y.test)<span class="op">^</span><span class="dv">2</span>)
+f &lt;-<span class="st"> </span><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;MSE: &quot;</span>,<span class="kw">round</span>(MSE, <span class="dv">4</span>)))</code></pre></div>
+<pre><code>[1] &quot;MSE:  1987.3417&quot;</code></pre>
+<p>The cross validation error when using principal components regression is MSE: 1987.3417, which is considerably less than the error when using the other candidate models.</p>
+</div>
+</div>
+</div>
+<div id="g-comparisons" class="section level1">
+<h1>(g) Comparisons</h1>
+<p>We have already calculated the MSE values for the last 3 candidate models however we still need to do it for the first two.</p>
+<div id="mse-for-linear-regression" class="section level2">
+<h2>MSE for linear regression</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
+index &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="kw">nrow</span>(house), <span class="kw">nrow</span>(house) <span class="op">*</span><span class="st"> </span>.<span class="dv">5</span>, <span class="dt">replace =</span> F)
+train &lt;-<span class="st"> </span>house[index ,]
+test &lt;-<span class="st"> </span>house[<span class="op">-</span>index ,]
+ModLM &lt;-<span class="st"> </span><span class="kw">lm</span>(price <span class="op">~</span><span class="st"> </span>elem <span class="op">+</span><span class="st"> </span>status <span class="op">+</span><span class="st"> </span>size <span class="op">+</span><span class="st"> </span>bedrooms, <span class="dt">data =</span> train)
+probabilities &lt;-<span class="st"> </span><span class="kw">predict</span>(ModLM, <span class="dt">newdata =</span> test)
+MSE &lt;-<span class="st"> </span><span class="kw">mean</span>((probabilities <span class="op">-</span><span class="st"> </span>test<span class="op">$</span>price)<span class="op">^</span><span class="dv">2</span>)
+
+a &lt;-<span class="st"> </span><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;MSE: &quot;</span>,<span class="kw">round</span>(MSE, <span class="dv">4</span>)))</code></pre></div>
+<pre><code>[1] &quot;MSE:  3049.7292&quot;</code></pre>
+</div>
+<div id="mse-for-forward-selection-method" class="section level2">
+<h2>MSE for forward selection method</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)
+regfit.best &lt;-<span class="st"> </span><span class="kw">regsubsets</span>(price <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> train, <span class="dt">nvmax =</span> <span class="dv">6</span>, <span class="dt">method =</span> <span class="st">&quot;forward&quot;</span>)</code></pre></div>
+<pre><code>Reordering variables and trying again:</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test.mat &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(price <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> test)
+val.errors &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">NA</span>,<span class="dv">6</span>)
+<span class="co"># This for loop takes the coefficients for each of the 30 models, uses them to predict the outcomes in the test data set, and then calculates the test MSE of those predictions.</span>
+<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>){
+  coefi=<span class="kw">coef</span>(regfit.best,<span class="dt">id=</span>i)
+  pred=test.mat[,<span class="kw">names</span>(coefi)]<span class="op">%*%</span>coefi
+  val.errors[i] &lt;-<span class="st"> </span><span class="kw">mean</span>((test<span class="op">$</span>price<span class="op">-</span>pred)<span class="op">^</span><span class="dv">2</span>)
+}
+MSE &lt;-<span class="st"> </span>val.errors[<span class="kw">which.min</span>(val.errors)]
+b &lt;-<span class="st"> </span><span class="kw">print</span>(<span class="kw">paste</span>(<span class="st">&quot;MSE: &quot;</span>,<span class="kw">round</span>(MSE, <span class="dv">4</span>)))</code></pre></div>
+<pre><code>[1] &quot;MSE:  3192.8287&quot;</code></pre>
+</div>
+<div id="list-of-the-mse" class="section level2">
+<h2>List of the MSE</h2>
+<p>Now we’re looking at the MSe values for each of the candidate models.</p>
+<p><strong>Previous Model(a)</strong> MSE: 3049.7292</p>
+<p><strong>Forward Selection Method(b)</strong> MSE: 3192.8287</p>
+<p><strong>Train/Test Regsubset(d)</strong> MSE: 2843.8046</p>
+<p><strong>Ridge Regression Model(e)</strong> MSE: 2592.7385</p>
+<p><strong>Principal Component Regression(f)</strong> MSE: 1987.3417</p>
+<p>We can see that the principal component regression outperforms the other models is having the lowest mean square error.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Jefferson Ong, Jayne Hollar, Céline Prunet" />
+
+
+<title>Housing Data</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Jefferson Ong</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="JeffersonOngResume.html">Resume</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Projects
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="supervise.html">Divorce Predictor Data</a>
+    </li>
+    <li>
+      <a href="WriteUp.html">Breast Cancer Data</a>
+    </li>
+    <li>
+      <a href="house.html">Housing Data in Oregon</a>
+    </li>
+    <li>
+      <a href="Project2.html">Statistical Methods on Housing Data</a>
+    </li>
+    <li>
+      <a href="Research.html">Microtonal Research</a>
+    </li>
+    <li>
+      <a href="nume.html">Root Finding &amp; Interpolation</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="about.html">Research Interest</a>
+</li>
+<li>
+  <a href="Contacts.html">Contacts</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/ongjk">
+    <span class="fa fa-github fa-lg"></span>
+     
+    
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Housing Data</h1>
+<h4 class="author">Jefferson Ong, Jayne Hollar, Céline Prunet</h4>
+<h4 class="date">May 09, 2020 at 10:19:52 PM</h4>
+
+</div>
+
+
+<pre class="r"><code>library(readxl)
+library(tidyverse)
+house &lt;- read_excel(&quot;Housing.xlsx&quot;)</code></pre>
+<div id="data-summary" class="section level1">
+<h1><span class="header-section-number">1</span> Data Summary:</h1>
+<p>Examine the statistics and values for each variable. Are any missing? Do any values need clarification or modification? If so, why and what did you do?</p>
+<pre class="r"><code>str(house)
+summary(house)
+which(is.na(house))</code></pre>
+<ul>
+<li>None are missing in the data frame</li>
+</ul>
+<div id="do-any-values-need-clarification-or-modification" class="section level2">
+<h2><span class="header-section-number">1.1</span> Do any values need clarification or modification?</h2>
+<ul>
+<li>Yes, status and elem should be a factor rather than just characters.</li>
+</ul>
+<pre class="r"><code>house$status &lt;- as.factor(house$status)
+house$elem &lt;- as.factor(house$elem)
+str(house)</code></pre>
+<pre><code>## tibble [76 × 11] (S3: tbl_df/tbl/data.frame)
+##  $ id             : num [1:76] 1 2 3 4 5 6 7 8 9 10 ...
+##  $ price          : num [1:76] 388 450 386 350 156 ...
+##  $ size           : num [1:76] 2.18 2.05 2.11 1.44 1.8 ...
+##  $ lot            : num [1:76] 4 5 5 6 1 5 4 4 4 5 ...
+##  $ bath           : num [1:76] 3 3 2 1 2 2 1.1 2 2.1 2.1 ...
+##  $ bedrooms       : num [1:76] 4 4 4 2 4 3 4 4 4 3 ...
+##  $ yearbuilt      : num [1:76] 1940 1957 1955 1956 1994 ...
+##  $ agestandardized: num [1:76] -3 -1.3 -1.5 -1.4 2.4 -3 -1.2 -0.9 -0.5 -0.2 ...
+##  $ garagesize     : num [1:76] 0 2 2 1 1 1 1 2 2 2 ...
+##  $ status         : Factor w/ 3 levels &quot;act&quot;,&quot;pen&quot;,&quot;sld&quot;: 3 3 3 1 3 3 1 3 1 3 ...
+##  $ elem           : Factor w/ 6 levels &quot;adams&quot;,&quot;crest&quot;,..: 4 4 4 1 1 1 6 6 6 6 ...</code></pre>
+<hr />
+</div>
+</div>
+<div id="exploratory-data-analysis" class="section level1">
+<h1><span class="header-section-number">2</span> Exploratory Data Analysis:</h1>
+<div id="scatterplot" class="section level2">
+<h2><span class="header-section-number">2.1</span> Scatterplot</h2>
+<pre class="r"><code>plot(house[1:9])</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<ul>
+<li>If we look at the second row of this multi-scatterplot, we can see the relationship of price as y against all the other variables individually. We can see that bath, bedroom, garagesize, and status are discrete variables. We can consider them as factors where a house’s bathroom will either have 1, 2, or 3 bathrooms but for now we won’t, in an extreme case of a house having more than 3 bathroom. Where as a house can only have three states.</li>
+</ul>
+</div>
+<div id="correlation-plot" class="section level2">
+<h2><span class="header-section-number">2.2</span> Correlation plot</h2>
+<pre class="r"><code>library(&quot;PerformanceAnalytics&quot;)
+chart.Correlation(house[, c(1:9)], histogram=TRUE, pch=19)</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<ul>
+<li>id: 0.04662108</li>
+<li>price: 1.00000000</li>
+<li>size: 0.20143783</li>
+<li>lot: 0.24423228</li>
+<li>bath: 0.1746578</li>
+<li>bedrooms: -0.28619746</li>
+<li>yearbuilt: 0.15412476</li>
+<li>agestandardized: 0.15412476</li>
+<li>garagesize: 0.3583861</li>
+</ul>
+<p>Here we can see that price as a single predictor against the other variables. We can see that individually each predictor doesn’t correlate strongly to price. Examine some of the variables relationships with price to help you determine which variables might be useful in an initial model. Explain your conclusions from this initial screening.</p>
+<p>We can see that the promising predictor variables are garagesize, lot, bedrooms(negatively). We can look further in size, bath, yearbuilt/agestandardized if we need more predictors. It makes sense that id doesn’t predict anythign since its just an index and that yearbuilt and agestandardized are the same since agestandardized is just a transformation of yearbuilt.</p>
+<pre class="r"><code>test &lt;- house %&gt;%
+  select(bedrooms, price) %&gt;%
+  arrange(bedrooms)
+plot(test)</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<ul>
+<li>We wanted to see why bedroom is negatively correlated since it’s not intuitive that having more bedrooms mean that the house is a lower price. We can see from the scatterplot that houses that have 4 or more bedrooms typically cost less than the 2 or 3 bedroom counterparts.</li>
+</ul>
+</div>
+<div id="outliers" class="section level2">
+<h2><span class="header-section-number">2.3</span> Outliers</h2>
+<pre class="r"><code>OutVals = boxplot(house$size, plot = T, main = &quot;size&quot;)$out</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>which(house$size %in% OutVals)</code></pre>
+<pre><code>[1]  4 20 76</code></pre>
+<pre class="r"><code>OutVals = boxplot(house$lot, plot = T, main = &quot;lot&quot;)$out</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<pre class="r"><code>which(house$lot %in% OutVals)</code></pre>
+<pre><code>[1] 74</code></pre>
+<pre class="r"><code>OutVals = boxplot(house$bath, plot = T, main = &quot;bath&quot;)$out</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-7-3.png" width="672" /></p>
+<pre class="r"><code>which(house$bath %in% OutVals)</code></pre>
+<pre><code>integer(0)</code></pre>
+<pre class="r"><code>OutVals = boxplot(house$bedrooms, plot = T, main = &quot;bedrooms&quot;)$out</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-7-4.png" width="672" /></p>
+<pre class="r"><code>which(house$bedrooms %in% OutVals)</code></pre>
+<pre><code>[1] 35</code></pre>
+<pre class="r"><code>OutVals = boxplot(house$yearbuilt, plot = T, main = &quot;year built&quot;)$out</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-7-5.png" width="672" /></p>
+<pre class="r"><code>which(house$yearbuilt %in% OutVals)</code></pre>
+<pre><code>[1] 35 52 54 64</code></pre>
+<pre class="r"><code>OutVals = boxplot(house$garagesize, plot = T, main = &quot;garage size&quot;)$out</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-7-6.png" width="672" /></p>
+<pre class="r"><code>which(house$garagesize %in% OutVals)</code></pre>
+<pre><code>integer(0)</code></pre>
+<ul>
+<li>We went ahead and look at size, lot, bath, bedroom, yearbuilt, and garagesize for outliers since id is just an index, price because it’s what we’re trying to predict, and agestandardized as it will give the same as yearbuilt. Boxplot would not be appropriate in for status and elem since it wouldn’t make sense.</li>
+</ul>
+<pre class="r"><code>house$size[c(4, 20, 76)]</code></pre>
+<pre><code>[1] 1.442 1.440 2.896</code></pre>
+<pre class="r"><code>house$lot[c(74)]</code></pre>
+<pre><code>[1] 11</code></pre>
+<pre class="r"><code>#house$bath 
+house$bedrooms[c(35)]</code></pre>
+<pre><code>[1] 6</code></pre>
+<pre class="r"><code>house$yearbuilt[c(35, 52, 54, 64)]</code></pre>
+<pre><code>[1] 1920 1919 1905 1908</code></pre>
+<pre class="r"><code>#house$garagesize</code></pre>
+<ul>
+<li>We then looked at the individual points to see if the data can explain why these particular points are outliers. We found that houses built before the 1920 has the 6 bedroom home which explains some of the negative correlation between price and bedroom numbers. An intuition would be that older homes, especially those before the 1920s will cost more and have more bedrooms.</li>
+</ul>
+<pre class="r"><code>house[c(74, 76),]</code></pre>
+<pre><code># A tibble: 2 x 11
+     id price  size   lot  bath bedrooms yearbuilt agestandardized garagesize
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;      &lt;dbl&gt;
+1    74  435   2.25    11     2        3      1979             0.9          2
+2    76  350.  2.90     4     3        5      1979             0.9          2
+# … with 2 more variables: status &lt;fct&gt;, elem &lt;fct&gt;</code></pre>
+<ul>
+<li>We then looked at the row 74 and 76 since 74 had a particuarly large lot and 76 had a huge size. We found that theres nothing apparent that would explain this deviation and decided to remove them because of this. They aren’t representative of the data at hand. We will also remove id as it isn’t needed for our analysis</li>
+</ul>
+<pre class="r"><code>house &lt;- house[-c(74,76), ]
+house &lt;- subset(house, select = -id )
+str(house)</code></pre>
+<pre><code>tibble [74 × 10] (S3: tbl_df/tbl/data.frame)
+ $ price          : num [1:74] 388 450 386 350 156 ...
+ $ size           : num [1:74] 2.18 2.05 2.11 1.44 1.8 ...
+ $ lot            : num [1:74] 4 5 5 6 1 5 4 4 4 5 ...
+ $ bath           : num [1:74] 3 3 2 1 2 2 1.1 2 2.1 2.1 ...
+ $ bedrooms       : num [1:74] 4 4 4 2 4 3 4 4 4 3 ...
+ $ yearbuilt      : num [1:74] 1940 1957 1955 1956 1994 ...
+ $ agestandardized: num [1:74] -3 -1.3 -1.5 -1.4 2.4 -3 -1.2 -0.9 -0.5 -0.2 ...
+ $ garagesize     : num [1:74] 0 2 2 1 1 1 1 2 2 2 ...
+ $ status         : Factor w/ 3 levels &quot;act&quot;,&quot;pen&quot;,&quot;sld&quot;: 3 3 3 1 3 3 1 3 1 3 ...
+ $ elem           : Factor w/ 6 levels &quot;adams&quot;,&quot;crest&quot;,..: 4 4 4 1 1 1 6 6 6 6 ...</code></pre>
+<ul>
+<li>The variables: size, lot, bedrooms, yearbuilt/agestandardized has outliers</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="initial-modeling" class="section level1">
+<h1><span class="header-section-number">3</span> Initial Modeling:</h1>
+<pre class="r"><code>model1 &lt;- lm(price ~. -agestandardized , house)
+summary(model1)</code></pre>
+<pre><code>
+Call:
+lm(formula = price ~ . - agestandardized, data = house)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-90.440 -28.267  -3.084  25.464 105.416 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept) 134.51524  652.40740   0.206  0.83735   
+size         53.86491   35.98329   1.497  0.13965   
+lot           5.48249    4.24177   1.293  0.20114   
+bath          9.28329   11.71581   0.792  0.43127   
+bedrooms    -13.29101    9.06656  -1.466  0.14789   
+yearbuilt     0.01577    0.32888   0.048  0.96191   
+garagesize   10.42915    9.34539   1.116  0.26889   
+statuspen   -13.71117   16.37471  -0.837  0.40573   
+statussld   -37.64023   13.91346  -2.705  0.00887 **
+elemcrest     4.82206   33.49879   0.144  0.88602   
+elemedge      0.65773   28.80361   0.023  0.98186   
+elemedison   83.25149   30.26369   2.751  0.00785 **
+elemharris   46.11221   30.42429   1.516  0.13486   
+elemparker   -8.86534   29.99090  -0.296  0.76856   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 43.92 on 60 degrees of freedom
+Multiple R-squared:  0.5297,    Adjusted R-squared:  0.4278 
+F-statistic: 5.199 on 13 and 60 DF,  p-value: 4.292e-06</code></pre>
+<p>Using your conclusions from the exploratory data analysis, build a regression model and report your findings.</p>
+<p>We can see that the model isn’t just random and does explain the price in someway, by the p-value on the F-statistic.</p>
+<pre><code>      F-statistic: 5.118 on 13 and 59 DF,  p-value: 5.685e-06.
+      </code></pre>
+<p>The model also explains about 53% of the variability in price, using the Multiple R-squared: 0.53. however this is inflated due to the sheer amount of predictors that we are using, looking at the Adjusted R-squared: 0.4264 means that it should only be about 42%.</p>
+<p>We can see that most of the significant predictors depend on the school district and status 3(whether the house is listed). There is also NA values for the agestandardized which makes sense since it’s the same as yearbuilt and adds nothing to the model.</p>
+<hr />
+</div>
+<div id="model-modification" class="section level1">
+<h1><span class="header-section-number">4</span> Model Modification:</h1>
+<p>Consider modifying your model based upon your initial results and/or diagnostic plots from the model. Explain any modifications that you are making. Consider variance inflation factors for each predictor in your model and comment on that in your model selection process.</p>
+<pre class="r"><code>library(car)
+vif(model1)</code></pre>
+<pre><code>               GVIF Df GVIF^(1/(2*Df))
+size       1.629861  1        1.276660
+lot        1.447221  1        1.203005
+bath       1.688067  1        1.299256
+bedrooms   1.626480  1        1.275335
+yearbuilt  2.310691  1        1.520096
+garagesize 2.005255  1        1.416070
+status     1.687671  2        1.139782
+elem       2.841724  5        1.110090</code></pre>
+<ul>
+<li>Using the GVIF^(1/(2*Df)) since elem has 5 coefficients and status has df 2, for all the different factors. There isn’t much multicollinearity between the predictor variables.</li>
+</ul>
+<pre class="r"><code>model2 &lt;- lm(price ~. -agestandardized -yearbuilt -bath -lot -garagesize, house)
+summary(model2)</code></pre>
+<pre><code>
+Call:
+lm(formula = price ~ . - agestandardized - yearbuilt - bath - 
+    lot - garagesize, data = house)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-88.973 -25.321  -2.025  25.832 130.000 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  195.485     60.858   3.212  0.00206 ** 
+size          78.424     31.368   2.500  0.01499 *  
+bedrooms     -19.763      7.791  -2.537  0.01364 *  
+statuspen    -13.160     16.142  -0.815  0.41794    
+statussld    -45.721     13.154  -3.476  0.00092 ***
+elemcrest     10.841     33.495   0.324  0.74725    
+elemedge       9.657     28.350   0.341  0.73449    
+elemedison    88.205     29.473   2.993  0.00392 ** 
+elemharris    48.962     29.637   1.652  0.10342    
+elemparker    -1.809     29.857  -0.061  0.95187    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 44.24 on 64 degrees of freedom
+Multiple R-squared:  0.4909,    Adjusted R-squared:  0.4193 
+F-statistic: 6.856 on 9 and 64 DF,  p-value: 7.769e-07</code></pre>
+<pre class="r"><code>vif(model2)</code></pre>
+<pre><code>             GVIF Df GVIF^(1/(2*Df))
+size     1.220356  1        1.104697
+bedrooms 1.183316  1        1.087803
+status   1.390658  2        1.085938
+elem     1.452477  5        1.038032</code></pre>
+<p>We then started to remove predictor variables base on the highest p value on their individual t statistic. While also keeping in mind the vif at each iteration on whether one would show multicollinearity, this is not occur. After removing yearbuilt and bath we saw size became significant. When we removed lot bedroom started to show that it might be significant and finally removing garagesize, we end up with a model where all the predictors are significant.</p>
+<p>The p value on the f-statistic shows us this is a significant model overall with a R^2 of 49%, adjusted of 42%.</p>
+<pre class="r"><code>par(mfrow = c(2,2))
+plot(model2)</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>house[4,]</code></pre>
+<pre><code># A tibble: 1 x 10
+  price  size   lot  bath bedrooms yearbuilt agestandardized garagesize status
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;           &lt;dbl&gt;      &lt;dbl&gt; &lt;fct&gt; 
+1   350  1.44     6     1        2      1956            -1.4          1 act   
+# … with 1 more variable: elem &lt;fct&gt;</code></pre>
+<ul>
+<li>Again we see that this is the house with 6 bedrooms that we decided to keep earlier on. We can see from the plot diagnostics that we aren’t violating any underlying assumptions for linear regression modelling.</li>
+</ul>
+<pre class="r"><code>model3 &lt;- lm(price ~. -agestandardized -yearbuilt -bath -lot -garagesize + agestandardized:size, house)
+summary(model3)</code></pre>
+<pre><code>
+Call:
+lm(formula = price ~ . - agestandardized - yearbuilt - bath - 
+    lot - garagesize + agestandardized:size, data = house)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-91.001 -25.479  -1.336  25.801 126.792 
+
+Coefficients:
+                     Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)           196.287     61.132   3.211  0.00208 **
+size                   74.545     32.027   2.328  0.02316 * 
+bedrooms              -17.784      8.359  -2.127  0.03730 * 
+statuspen             -13.213     16.211  -0.815  0.41810   
+statussld             -43.926     13.478  -3.259  0.00180 **
+elemcrest              11.094     33.641   0.330  0.74266   
+elemedge                8.225     28.552   0.288  0.77425   
+elemedison             91.547     30.014   3.050  0.00334 **
+elemharris             45.614     30.178   1.512  0.13566   
+elemparker             -3.041     30.041  -0.101  0.91969   
+size:agestandardized    1.003      1.492   0.672  0.50383   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 44.43 on 63 degrees of freedom
+Multiple R-squared:  0.4945,    Adjusted R-squared:  0.4143 
+F-statistic: 6.163 on 10 and 63 DF,  p-value: 1.756e-06</code></pre>
+<pre class="r"><code>par(mfrow = c(2,2))
+plot(model3)</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<pre class="r"><code>model4 &lt;- lm(log(price) ~. -agestandardized -yearbuilt -bath -lot -garagesize, house)
+summary(model4)</code></pre>
+<pre><code>
+Call:
+lm(formula = log(price) ~ . - agestandardized - yearbuilt - bath - 
+    lot - garagesize, data = house)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.28833 -0.08378 -0.00452  0.08781  0.36940 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  5.31581    0.21388  24.854  &lt; 2e-16 ***
+size         0.26461    0.11024   2.400 0.019297 *  
+bedrooms    -0.07492    0.02738  -2.736 0.008028 ** 
+statuspen   -0.05673    0.05673  -1.000 0.321045    
+statussld   -0.17636    0.04623  -3.815 0.000309 ***
+elemcrest    0.09411    0.11771   0.799 0.426984    
+elemedge     0.08765    0.09963   0.880 0.382294    
+elemedison   0.35659    0.10358   3.443 0.001020 ** 
+elemharris   0.22717    0.10415   2.181 0.032855 *  
+elemparker   0.04825    0.10493   0.460 0.647197    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.1555 on 64 degrees of freedom
+Multiple R-squared:  0.5106,    Adjusted R-squared:  0.4417 
+F-statistic: 7.418 on 9 and 64 DF,  p-value: 2.502e-07</code></pre>
+<pre class="r"><code>par(mfrow = c(2,2))
+plot(model4)</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-17-1.png" width="672" /> Here we’ve looked at the interaction term that we thought we be significant earlier from looking at the data. We find out that is it not.</p>
+<p>We applied a transformation on the Y response variable, seeing if it will yield to better plot diagnostics. It doesn’t change much for the most part aside from the residual vs fitted plot being more spread out but curving more drastically.</p>
+<pre class="r"><code>model4 &lt;- lm(price ~ elem + status + I(size /100) + bedrooms, house)
+summary(model4)</code></pre>
+<pre><code>
+Call:
+lm(formula = price ~ elem + status + I(size/100) + bedrooms, 
+    data = house)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-88.973 -25.321  -2.025  25.832 130.000 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  195.485     60.858   3.212  0.00206 ** 
+elemcrest     10.841     33.495   0.324  0.74725    
+elemedge       9.657     28.350   0.341  0.73449    
+elemedison    88.205     29.473   2.993  0.00392 ** 
+elemharris    48.962     29.637   1.652  0.10342    
+elemparker    -1.809     29.857  -0.061  0.95187    
+statuspen    -13.160     16.142  -0.815  0.41794    
+statussld    -45.721     13.154  -3.476  0.00092 ***
+I(size/100) 7842.351   3136.758   2.500  0.01499 *  
+bedrooms     -19.763      7.791  -2.537  0.01364 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 44.24 on 64 degrees of freedom
+Multiple R-squared:  0.4909,    Adjusted R-squared:  0.4193 
+F-statistic: 6.856 on 9 and 64 DF,  p-value: 7.769e-07</code></pre>
+<pre class="r"><code>par(mfrow = c(2,2))
+plot(model4)</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<ul>
+<li>We applied a transformation on size to see changes in the plot diagnostics. We can see that changes in the predictor variables does not have any affects on it’s significances.</li>
+</ul>
+<hr />
+</div>
+<div id="conclusions" class="section level1">
+<h1><span class="header-section-number">5</span> Conclusions:</h1>
+<p>Present your final model and diagnostic plots in support of that final model. In that presentation of the final model, comment on the R-squared value and its interpretation, give 95% confidence intervals for each of the β coefficients in your model, and illustrate your model’s use with a 95% confidence interval for the mean response and a 95% prediction interval for individual response for a hypothetical house of your choosing.</p>
+<pre class="r"><code>modelf &lt;- lm(price ~ elem + status + size + bedrooms, house)
+summary(modelf)</code></pre>
+<pre><code>
+Call:
+lm(formula = price ~ elem + status + size + bedrooms, data = house)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-88.973 -25.321  -2.025  25.832 130.000 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  195.485     60.858   3.212  0.00206 ** 
+elemcrest     10.841     33.495   0.324  0.74725    
+elemedge       9.657     28.350   0.341  0.73449    
+elemedison    88.205     29.473   2.993  0.00392 ** 
+elemharris    48.962     29.637   1.652  0.10342    
+elemparker    -1.809     29.857  -0.061  0.95187    
+statuspen    -13.160     16.142  -0.815  0.41794    
+statussld    -45.721     13.154  -3.476  0.00092 ***
+size          78.424     31.368   2.500  0.01499 *  
+bedrooms     -19.763      7.791  -2.537  0.01364 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 44.24 on 64 degrees of freedom
+Multiple R-squared:  0.4909,    Adjusted R-squared:  0.4193 
+F-statistic: 6.856 on 9 and 64 DF,  p-value: 7.769e-07</code></pre>
+<pre class="r"><code>par(mfrow = c(2,2))
+plot(modelf)</code></pre>
+<p><img src="housing_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<ul>
+<li><p>After looking at the transformation on the on the response, interaction terms, and some of the predictor variables. We did not find anything compelling that would improve the model from what we already had.</p></li>
+<li><p>The R^2 value is 0.4909 which mean that the model explains about 49% of the variation. Looking at the adjusted R^2 of 0.4193 we’re penalized by the amount of variables in the model.</p></li>
+</ul>
+<pre class="r"><code>confint(modelf, level = .95)</code></pre>
+<pre><code>                2.5 %     97.5 %
+(Intercept)  73.90789 317.062309
+elemcrest   -56.07266  77.754847
+elemedge    -46.97820  66.292616
+elemedison   29.32650 147.083452
+elemharris  -10.24411 108.167339
+elemparker  -61.45455  57.836119
+statuspen   -45.40613  19.086839
+statussld   -71.99990 -19.442006
+size         15.75956 141.087464
+bedrooms    -35.32660  -4.198871</code></pre>
+<ul>
+<li><p>These are the β coefficients in your model, we are 95% confident that the actual mean data point is between the 2.5% and 97.5% values.</p></li>
+<li><p>We can be 95% confident that the actual mean price value for elemcrest is between -$56.1K to $77.8K.</p></li>
+<li><p>We can be 95% confident that the actual mean price value for elemedge is between -$47.0K to $66.3K.</p></li>
+<li><p>We can be 95% confident that the actual mean price value for elemedison is between $29.3K to $147.1K.</p></li>
+<li><p>We can be 95% confident that the actual mean price value for elemharris is between -$10.2K to $108.2K.</p></li>
+<li><p>We can be 95% confident that the actual mean price value for elemparker is between -$45.4K to $19.1K.</p></li>
+<li><p>We can be 95% confident that the actual mean price value for statuspen is between -$72.0K to -$19.4K.</p></li>
+<li><p>We can be 95% confident that the actual mean price value for statussld is between $19.4K to $72.0K.</p></li>
+<li><p>We can be 95% confident that the actual mean price value for size is between $15.8K to $141.1K.</p></li>
+<li><p>We can be 95% confident that the actual mean price value for bedrooms is between -$35.3K to -$4.2K.</p></li>
+</ul>
+<pre class="r"><code>newhouse &lt;- data.frame(size = 2, bedrooms  = 4, status = &quot;pen&quot;, elem = &quot;crest&quot;)
+predict(modelf, newdata = newhouse, interval = &#39;confidence&#39;)</code></pre>
+<pre><code>       fit      lwr      upr
+1 270.9626 219.8833 322.0419</code></pre>
+<ul>
+<li>$271.0K is the point estimate for this particular house.</li>
+<li>Based on the model centered around the mean prediction values, we can be 95% confident the true mean home price is between $220.0K to $322.0K</li>
+</ul>
+<pre class="r"><code>newhouse &lt;- data.frame(size = 2, bedrooms  = 4, status = &quot;pen&quot;, elem = &quot;crest&quot;)
+predict(modelf, newdata = newhouse, interval = &#39;predict&#39;)</code></pre>
+<pre><code>       fit      lwr      upr
+1 270.9626 168.8784 373.0468</code></pre>
+<ul>
+<li>$271.0K is the point estimate for future houses</li>
+<li>Based on the model centered around the point estimate, we expect a future home built to have a price of $168.9K to $373.0K 95% of the time and 5% of the time to have a price outside this range.</li>
+</ul>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

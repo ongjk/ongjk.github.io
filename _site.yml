@@ -14,10 +14,15 @@ navbar:
           href: supervise.html
         - text: "Breast Cancer Data"
           href: WriteUp.html
+        - text: "Housing Data in Oregon"
+          href: house.html
+        - text: "Statistical Methods on Housing Data"
+          href: Project2.html
         - text: "Microtonal Research"
           href: Research.html
         - text: "Root Finding & Interpolation"
-          href: num.html
+          href: nume.html
+        
           
     - text: "Research Interest"
       href: about.html
