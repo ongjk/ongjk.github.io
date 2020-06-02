@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jefferson Ong" />
 
-<meta name="date" content="2020-05-09" />
+<meta name="date" content="2020-06-02" />
 
 <title>Root Finding and Interpolation Capstone</title>
 
@@ -331,14 +331,14 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Root Finding and Interpolation Capstone</h1>
 <h4 class="author">Jefferson Ong</h4>
-<h4 class="date">May 09, 2020</h4>
+<h4 class="date">June 02, 2020</h4>
 
 </div>
 
 
 <div id="question-1" class="section level1">
 <h1><span class="header-section-number">1</span> Question 1:</h1>
-<p>There are several suggested production level codes’ that can be programmed for general purpose root finding. All assume that there is an interval that brackets the root to start. The code does either linear or quadratic inverse interpolation’’ to produce a new estimate of the root. If the convergence is slow, then the method reverts to bisection for a few steps to cut down on the size of the interval.</p>
+<p>There are several suggested production level codes' that can be programmed for general purpose root finding. All assume that there is an interval that brackets the root to start. The code does either linear or quadratic inverse interpolation'' to produce a new estimate of the root. If the convergence is slow, then the method reverts to bisection for a few steps to cut down on the size of the interval.</p>
 <p>Your job: Consider the two programs</p>
 <ul>
 <li><p><em>Brent developed in the 1970s: quadratic interpolation + secant (linear interpolation) + bisection)</em></p></li>
@@ -350,7 +350,7 @@ $(document).ready(function () {
 <li><p><span class="math inline">\(f(x) =(x-1)(x-2)(x-3)(x-4)(x-5)(x-6)(x-7)\)</span> on [-.5,7.5] accurate to 1.0E-10.</p></li>
 <li><p><span class="math inline">\(f(x) = (1-x)e^{-1/(x-1)^2}\)</span> on [0,3] accurate to 1.0E-10.</p></li>
 </ol>
-<p>Le claims that his simplification of Brent is better because it eliminates a lot of the complicated conditional testing and still converges either about the same or faster than Brent’s original algorithm. Does your experimentation support this claim?</p>
+<p>Le claims that his simplification of Brent is better because it eliminates a lot of the complicated conditional testing and still converges either about the same or faster than Brent's original algorithm. Does your experimentation support this claim?</p>
 <pre class="python"><code>import math
 
 def f(x):
@@ -615,14 +615,14 @@ LE_brent(a, b, relerr, abserr)</code></pre>
 (&#39;linear steps:&#39;, 0, &#39;quadratic steps:&#39;, 5)</code></pre>
 <p>Maple:</p>
 <ul>
-<li>Maple did not evaluate to any particular root. The graph shows this, when the y = 0 when x is between 0.5 and 1.5, meaning that all of these values are possible roots. We can see that the Brent and Le algorithm are within this range. It took the Brent 11 evaluations, 7 linear, and 2 quadratic while taking the Le 12 evaluation, no linear, and 5 quadratic. It’s difficult to say for certain that the Le is more efficient since quadratic steps are more complicated that linear. However from a pure calculation standpoint, it took the Brent (7 + 2) * 11 = 99 steps, while Le took 5(12) = 60 steps. A bit more efficient.</li>
+<li>Maple did not evaluate to any particular root. The graph shows this, when the y = 0 when x is between 0.5 and 1.5, meaning that all of these values are possible roots. We can see that the Brent and Le algorithm are within this range. It took the Brent 11 evaluations, 7 linear, and 2 quadratic while taking the Le 12 evaluation, no linear, and 5 quadratic. It's difficult to say for certain that the Le is more efficient since quadratic steps are more complicated that linear. However from a pure calculation standpoint, it took the Brent (7 + 2) * 11 = 99 steps, while Le took 5(12) = 60 steps. A bit more efficient.</li>
 </ul>
-<p>Conclusion: We can see that Le isn’t always better, it really depends on the function and the range we are given. The first function is a “standard” problem with one root and the Le algorithm performed much better. However in the second function, Brent performed much better than Le, but the function had 7 roots. The last function doesn’t show us too much more, where the Le performed slightly better but not by much. So we don’t have enough evidence to support the claim.</p>
+<p>Conclusion: We can see that Le isn't always better, it really depends on the function and the range we are given. The first function is a &quot;standard&quot; problem with one root and the Le algorithm performed much better. However in the second function, Brent performed much better than Le, but the function had 7 roots. The last function doesn't show us too much more, where the Le performed slightly better but not by much. So we don't have enough evidence to support the claim.</p>
 <hr />
 </div>
 <div id="question-2" class="section level1">
 <h1><span class="header-section-number">2</span> Question 2:</h1>
-<p>Modify the function from part b in problem 1 by changing <span class="math inline">\((x-7)\)</span> to <span class="math inline">\((x-7.0000000001)\)</span>, i.e. This is a very small perturbation of one root of this seventh degree polynomial. Run Brent and Le again. Do you find the same roots with the same amount of work on the part of the program? Describe what happens.</p>
+<p>Modify the function from part b in problem 1 by changing <span class="math inline">\((x-7)\)</span> to <span class="math inline">\((x-7.0000000001)\)</span>, i.e. This is a very small perturbation of one root of this seventh degree polynomial. Run Brent and Le again. Do you find the same roots with the same amount of work on the part of the program? Describe what happens.</p>
 <p>1b) Brent:</p>
 <pre class="html"><code>(&#39; The root is&#39;, 7.0000000001)
 (&#39;and the function value at the root is&#39;, 0.0)
@@ -634,7 +634,7 @@ LE_brent(a, b, relerr, abserr)</code></pre>
 (&#39;The number of function evaluations:&#39;, 20)
 (&#39;linear steps:&#39;, 0, &#39;quadratic steps:&#39;, 9)</code></pre>
 <ul>
-<li>We found that the small pertubation of one root does not show any effect on both algorithms. The Brent algorithm’s root just changes to 7.0000000001 from the previous 7. While the Le algorithm has no change. No increase or decrease on function evaluation, linear, and quadratic steps.</li>
+<li>We found that the small pertubation of one root does not show any effect on both algorithms. The Brent algorithm's root just changes to 7.0000000001 from the previous 7. While the Le algorithm has no change. No increase or decrease on function evaluation, linear, and quadratic steps.</li>
 </ul>
 <hr />
 </div>
@@ -645,13 +645,13 @@ LE_brent(a, b, relerr, abserr)</code></pre>
 <li><p><span class="math inline">\(f(x) = x^2 - a\)</span></p></li>
 <li><p><span class="math inline">\(f(x) = x^3 - a\)</span>.</p></li>
 </ul>
-<p>We can create a designer code using Newton’s Method. For example, for <span class="math inline">\(f(x) = x^2 - a\)</span>, the Newton iteration is <span class="math display">\[ x_{new} = x - \frac{f(x)}{f&#39;(x)} = x - \frac{x^2 - a}{2x}\]</span> For <span class="math inline">\(f(x) = x^3- a\)</span>, the Newton iteration is <span class="math display">\[ x_{new} = x - \frac{f(x)}{f&#39;(x)} = x - \frac{x^3 - a}{3x^2}\]</span></p>
+<p>We can create a designer code using Newton's Method. For example, for <span class="math inline">\(f(x) = x^2 - a\)</span>, the Newton iteration is <span class="math display">\[ x_{new} = x - \frac{f(x)}{f&#39;(x)} = x - \frac{x^2 - a}{2x}\]</span> For <span class="math inline">\(f(x) = x^3- a\)</span>, the Newton iteration is <span class="math display">\[ x_{new} = x - \frac{f(x)}{f&#39;(x)} = x - \frac{x^3 - a}{3x^2}\]</span></p>
 <p>Use this idea to write an efficient code to print out the square root and cube root of <span class="math inline">\(a\)</span> correct to <span class="math inline">\(0.00001\)</span>, using <span class="math inline">\(a/2\)</span> as the initial <span class="math inline">\(x\)</span>-value for the square root and <span class="math inline">\(a/3\)</span> as the initial <span class="math inline">\(x\)</span>-value for the cube root. Simplify the Newton step so that there are no subtractions to avoid possible cancellation error. Test your code on a variety of numbers between 0 and 1000. Use the following function definition statement:</p>
 <pre class="html"><code>def roots(a):</code></pre>
 <p>The code should print the following statement (assuming 5 was input as a):</p>
-<p>``The square and cube roots of 5 are: 2.23606798 and 1.70997595’’</p>
+<p>``The square and cube roots of 5 are: 2.23606798 and 1.70997595''</p>
 <ul>
-<li>We can see that we can reform the Newton iteration to isolate ‘a’.</li>
+<li>We can see that we can reform the Newton iteration to isolate 'a'.</li>
 </ul>
 <p><span class="math display">\[(((xnew - x) * -nx^{n - 1} ) - x^n) * -1 = a\]</span></p>
 <p>(a)^(1/2) = square. So for example, we want the square root of 5. We will take the initial value of x = 5/2 = 2.5, We then feed this into to loop. We square this, so (2.5)^2 = 6.25, add the original number, 5. So 6.25 + 5 = 11.25, then divide by 2x, 11.25/(2* 2.5) = 2.25 as our xnew value. Compare to the real sqrt(5) = 2.3606.</p>
@@ -669,7 +669,7 @@ LE_brent(a, b, relerr, abserr)</code></pre>
 roots(8)</code></pre>
 <pre><code>## The square and cube roots of 5 are 2.82842712474619 and 2.0</code></pre>
 <p><a href="https://repl.it/@ongjk/TubbyWrithingRuntimeerror" class="uri">https://repl.it/@ongjk/TubbyWrithingRuntimeerror</a></p>
-<p><span class="math display">\[ x_{new} = x - \frac{f(x)}{f&#39;(x)} = x - \frac{x^2 - a}{2x} = x* \frac{2x}{2x} - \frac{x^2 - a}{2x} = \frac{2x^2}{2x} - \frac{x^2 - a}{2x} = \frac{x^2 + a}{2x} \]</span> So this is the formula for the square root Newton’s Method. The cube root on the other hand is this,</p>
+<p><span class="math display">\[ x_{new} = x - \frac{f(x)}{f&#39;(x)} = x - \frac{x^2 - a}{2x} = x* \frac{2x}{2x} - \frac{x^2 - a}{2x} = \frac{2x^2}{2x} - \frac{x^2 - a}{2x} = \frac{x^2 + a}{2x} \]</span> So this is the formula for the square root Newton's Method. The cube root on the other hand is this,</p>
 <p><span class="math display">\[ x_{new} = x - \frac{f(x)}{f&#39;(x)} = x - \frac{x^3 - a}{3x^2} =  x* \frac{3x^2}{3x^2} - \frac{x^3 - a}{3x^2} = \frac{3x^3}{3x^2} - \frac{x^3 - a}{3x^2} =  \frac{2x^3 + a}{3x^2}\]</span></p>
 </div>
 

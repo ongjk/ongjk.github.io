@@ -379,7 +379,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Statistical Models on Housing</h1>
 <h4 class="author">Jefferson Ong, Jayne Hollar, Céline Prunet</h4>
-<h4 class="date">09 May, 2020</h4>
+<h4 class="date">02 June, 2020</h4>
 
 </div>
 
@@ -387,7 +387,7 @@ $(document).ready(function () {
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p>We will be looking at a housing dataset from Oregon. We are going to be building models to predict the price of a particular house in Oregon using predictor variables such as the size of the house, how many bathrooms it has, the year it was built, etc.</p>
-<p>We have already looked at this dataset from the previous project and taking the final linear regression model and comparing it to other model methods. We will be using MSE to evaluate the model’s performance and see which one is the most accurate.</p>
+<p>We have already looked at this dataset from the previous project and taking the final linear regression model and comparing it to other model methods. We will be using MSE to evaluate the model's performance and see which one is the most accurate.</p>
 <div id="libraries" class="section level2 unnumbered">
 <h2>Libraries</h2>
 <p>We will be using these libraries to load in the necessary functions for the particular model.</p>
@@ -410,7 +410,7 @@ house &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span cla
 <h2>(b) Forward Selection</h2>
 <div id="tuning-parameter-for-forward-selection" class="section level3 unnumbered">
 <h3>Tuning Parameter for Forward Selection</h3>
-<p>We will be using the <code>regsubsets()</code> function to subset dataset depending on the number of variables it has, in this case we have 14, so we’re setting <code>nvmax = 14</code> which lets us examine all the variables. We want to optimize how many variables our model uses. We will use four metrics to evaluate this: <code>R-Squared</code>, <code>Adjusted RSq</code>, <code>Cp</code> and <code>BIC</code>. We know that <code>Cp</code> and <code>BIC</code> are unbiased estimate for the predicted error for MSE. We can see that the curve hits the lowest value at 6 variables for both <code>Cp</code> and <code>BIC</code>. We can make sure of this with the <code>which.min()</code> function.</p>
+<p>We will be using the <code>regsubsets()</code> function to subset dataset depending on the number of variables it has, in this case we have 14, so we're setting <code>nvmax = 14</code> which lets us examine all the variables. We want to optimize how many variables our model uses. We will use four metrics to evaluate this: <code>R-Squared</code>, <code>Adjusted RSq</code>, <code>Cp</code> and <code>BIC</code>. We know that <code>Cp</code> and <code>BIC</code> are unbiased estimate for the predicted error for MSE. We can see that the curve hits the lowest value at 6 variables for both <code>Cp</code> and <code>BIC</code>. We can make sure of this with the <code>which.min()</code> function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">regfit.full &lt;-<span class="st"> </span><span class="kw">regsubsets</span>(price <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> house, <span class="dt">nvmax =</span> <span class="dv">14</span>)</code></pre></div>
 <pre><code>Reordering variables and trying again:</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">reg.summary &lt;-<span class="st"> </span><span class="kw">summary</span>(regfit.full)
@@ -434,7 +434,7 @@ house &lt;-<span class="st"> </span><span class="kw">read_excel</span>(<span cla
 </div>
 <div id="forward-selection-model" class="section level3">
 <h3>Forward Selection Model</h3>
-<p>Once we know the number of variables that is optimal for the model, we will use the forward selection method to choose which predictor variables will be best to use. The forward selection adds one predictor variable at each iteration base on how significant it is. SO it selects the best one predictor model, then the best 2 predictor model, etc. until the model doesn’t improve anymore. We can see with the BIC graph which predictors has the lowest BIC. Using the <code>coef()</code> function, this will show us the best 6 predictor model using the forward selection method.</p>
+<p>Once we know the number of variables that is optimal for the model, we will use the forward selection method to choose which predictor variables will be best to use. The forward selection adds one predictor variable at each iteration base on how significant it is. SO it selects the best one predictor model, then the best 2 predictor model, etc. until the model doesn't improve anymore. We can see with the BIC graph which predictors has the lowest BIC. Using the <code>coef()</code> function, this will show us the best 6 predictor model using the forward selection method.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">regfit.f &lt;-<span class="st"> </span><span class="kw">regsubsets</span>(price <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> house, <span class="dt">nvmax =</span> <span class="dv">6</span>, <span class="dt">method =</span> <span class="st">&quot;forward&quot;</span>)</code></pre></div>
 <pre><code>Reordering variables and trying again:</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(regfit.f)</code></pre></div>
@@ -494,7 +494,7 @@ Selection Algorithm: forward
 </div>
 <div id="c-creating-training-and-test-set" class="section level2">
 <h2>(c) Creating training and test set</h2>
-<p>We’ve evenly split the housing dataset which has has around 76 observations in total.</p>
+<p>We've evenly split the housing dataset which has has around 76 observations in total.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Make the process able to be reproduced.</span>
 <span class="kw">set.seed</span>(<span class="dv">1</span>)
 
@@ -505,7 +505,7 @@ test &lt;-<span class="st"> </span>house[<span class="op">-</span>index ,]</code
 </div>
 <div id="d-using-trainingtest-for-regsubsets" class="section level2">
 <h2>(d) Using Training/Test for <code>regsubsets</code></h2>
-<p>We will now use our training and test data to figure out how many predictor variables our model should have using the <code>regsubsets()</code> compare to before where we use the metrics <code>Cp</code> and <code>BIC</code>. We ran the function over the training set then created a matrix model for the testing set to compare our <code>regsubsets</code> model using the training data. We get a set of validation errors from the training models and predicted into the outcomes in our test set, similar to how we’re predicting for simple linear models. We want the model with the lowest validation error.</p>
+<p>We will now use our training and test data to figure out how many predictor variables our model should have using the <code>regsubsets()</code> compare to before where we use the metrics <code>Cp</code> and <code>BIC</code>. We ran the function over the training set then created a matrix model for the testing set to compare our <code>regsubsets</code> model using the training data. We get a set of validation errors from the training models and predicted into the outcomes in our test set, similar to how we're predicting for simple linear models. We want the model with the lowest validation error.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Run the regsubsets command to get the &quot;best&quot; model with each possible number of predictors (on the training data).  Note that we are not using stepwise selections here.</span>
 regfit.best &lt;-<span class="st"> </span><span class="kw">regsubsets</span>(price <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> train, <span class="dt">nvmax =</span> <span class="dv">14</span>)</code></pre></div>
 <pre><code>Reordering variables and trying again:</code></pre>
@@ -579,7 +579,7 @@ e &lt;-<span class="st"> </span><span class="kw">print</span>(<span class="kw">p
 <p>Above, we plugged in the best level of lambda into our training test split from earlier and got our mean squared prediction error of MSE: 2592.7385 for our particular split. Our next chunk of code is us getting the coefficients of the regression model for the lambda that best fits. Finally, we see that our MSE is MSE: 2592.7385. This is a better than our third model who’s MSE was MSE: 2843.8046. The lower the MSE the better the model.</p>
 <div id="f-principal-components-regression" class="section level3">
 <h3>(f) Principal Components Regression</h3>
-<p>We will be using the <code>pls</code> package to use the <code>pcr()</code> function. The principal components model calculates the linear combinations of the original variables. It is used to create models that minimizes multicollinearity between predictors and attempts to mitigate overfitting. Below, we’re set up a <code>pcr</code> model using cross validation then choosing the model with the optimal components.</p>
+<p>We will be using the <code>pls</code> package to use the <code>pcr()</code> function. The principal components model calculates the linear combinations of the original variables. It is used to create models that minimizes multicollinearity between predictors and attempts to mitigate overfitting. Below, we're set up a <code>pcr</code> model using cross validation then choosing the model with the optimal components.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2</span>)
 pcr.fit=<span class="kw">pcr</span>(price<span class="op">~</span>., <span class="dt">data=</span>house,<span class="dt">scale=</span><span class="ot">TRUE</span>,<span class="dt">validation=</span><span class="st">&quot;CV&quot;</span>)
 <span class="kw">validationplot</span>(pcr.fit,<span class="dt">val.type=</span><span class="st">&quot;MSEP&quot;</span>)</code></pre></div>
@@ -641,7 +641,7 @@ b &lt;-<span class="st"> </span><span class="kw">print</span>(<span class="kw">p
 </div>
 <div id="list-of-the-mse" class="section level2">
 <h2>List of the MSE</h2>
-<p>Now we’re looking at the MSe values for each of the candidate models.</p>
+<p>Now we're looking at the MSe values for each of the candidate models.</p>
 <p><strong>Previous Model(a)</strong> MSE: 3049.7292</p>
 <p><strong>Forward Selection Method(b)</strong> MSE: 3192.8287</p>
 <p><strong>Train/Test Regsubset(d)</strong> MSE: 2843.8046</p>

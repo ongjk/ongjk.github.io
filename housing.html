@@ -330,7 +330,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Housing Data</h1>
 <h4 class="author">Jefferson Ong, Jayne Hollar, Céline Prunet</h4>
-<h4 class="date">May 09, 2020 at 10:19:52 PM</h4>
+<h4 class="date">Jun 02, 2020 at 05:22:28 AM</h4>
 
 </div>
 
@@ -377,7 +377,7 @@ str(house)</code></pre>
 <pre class="r"><code>plot(house[1:9])</code></pre>
 <p><img src="housing_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <ul>
-<li>If we look at the second row of this multi-scatterplot, we can see the relationship of price as y against all the other variables individually. We can see that bath, bedroom, garagesize, and status are discrete variables. We can consider them as factors where a house’s bathroom will either have 1, 2, or 3 bathrooms but for now we won’t, in an extreme case of a house having more than 3 bathroom. Where as a house can only have three states.</li>
+<li>If we look at the second row of this multi-scatterplot, we can see the relationship of price as y against all the other variables individually. We can see that bath, bedroom, garagesize, and status are discrete variables. We can consider them as factors where a house's bathroom will either have 1, 2, or 3 bathrooms but for now we won't, in an extreme case of a house having more than 3 bathroom. Where as a house can only have three states.</li>
 </ul>
 </div>
 <div id="correlation-plot" class="section level2">
@@ -396,15 +396,15 @@ chart.Correlation(house[, c(1:9)], histogram=TRUE, pch=19)</code></pre>
 <li>agestandardized: 0.15412476</li>
 <li>garagesize: 0.3583861</li>
 </ul>
-<p>Here we can see that price as a single predictor against the other variables. We can see that individually each predictor doesn’t correlate strongly to price. Examine some of the variables relationships with price to help you determine which variables might be useful in an initial model. Explain your conclusions from this initial screening.</p>
-<p>We can see that the promising predictor variables are garagesize, lot, bedrooms(negatively). We can look further in size, bath, yearbuilt/agestandardized if we need more predictors. It makes sense that id doesn’t predict anythign since its just an index and that yearbuilt and agestandardized are the same since agestandardized is just a transformation of yearbuilt.</p>
+<p>Here we can see that price as a single predictor against the other variables. We can see that individually each predictor doesn't correlate strongly to price. Examine some of the variables relationships with price to help you determine which variables might be useful in an initial model. Explain your conclusions from this initial screening.</p>
+<p>We can see that the promising predictor variables are garagesize, lot, bedrooms(negatively). We can look further in size, bath, yearbuilt/agestandardized if we need more predictors. It makes sense that id doesn't predict anythign since its just an index and that yearbuilt and agestandardized are the same since agestandardized is just a transformation of yearbuilt.</p>
 <pre class="r"><code>test &lt;- house %&gt;%
   select(bedrooms, price) %&gt;%
   arrange(bedrooms)
 plot(test)</code></pre>
 <p><img src="housing_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <ul>
-<li>We wanted to see why bedroom is negatively correlated since it’s not intuitive that having more bedrooms mean that the house is a lower price. We can see from the scatterplot that houses that have 4 or more bedrooms typically cost less than the 2 or 3 bedroom counterparts.</li>
+<li>We wanted to see why bedroom is negatively correlated since it's not intuitive that having more bedrooms mean that the house is a lower price. We can see from the scatterplot that houses that have 4 or more bedrooms typically cost less than the 2 or 3 bedroom counterparts.</li>
 </ul>
 </div>
 <div id="outliers" class="section level2">
@@ -434,7 +434,7 @@ plot(test)</code></pre>
 <pre class="r"><code>which(house$garagesize %in% OutVals)</code></pre>
 <pre><code>integer(0)</code></pre>
 <ul>
-<li>We went ahead and look at size, lot, bath, bedroom, yearbuilt, and garagesize for outliers since id is just an index, price because it’s what we’re trying to predict, and agestandardized as it will give the same as yearbuilt. Boxplot would not be appropriate in for status and elem since it wouldn’t make sense.</li>
+<li>We went ahead and look at size, lot, bath, bedroom, yearbuilt, and garagesize for outliers since id is just an index, price because it's what we're trying to predict, and agestandardized as it will give the same as yearbuilt. Boxplot would not be appropriate in for status and elem since it wouldn't make sense.</li>
 </ul>
 <pre class="r"><code>house$size[c(4, 20, 76)]</code></pre>
 <pre><code>[1] 1.442 1.440 2.896</code></pre>
@@ -457,7 +457,7 @@ house$bedrooms[c(35)]</code></pre>
 2    76  350.  2.90     4     3        5      1979             0.9          2
 # … with 2 more variables: status &lt;fct&gt;, elem &lt;fct&gt;</code></pre>
 <ul>
-<li>We then looked at the row 74 and 76 since 74 had a particuarly large lot and 76 had a huge size. We found that theres nothing apparent that would explain this deviation and decided to remove them because of this. They aren’t representative of the data at hand. We will also remove id as it isn’t needed for our analysis</li>
+<li>We then looked at the row 74 and 76 since 74 had a particuarly large lot and 76 had a huge size. We found that theres nothing apparent that would explain this deviation and decided to remove them because of this. They aren't representative of the data at hand. We will also remove id as it isn't needed for our analysis</li>
 </ul>
 <pre class="r"><code>house &lt;- house[-c(74,76), ]
 house &lt;- subset(house, select = -id )
@@ -514,11 +514,11 @@ Residual standard error: 43.92 on 60 degrees of freedom
 Multiple R-squared:  0.5297,    Adjusted R-squared:  0.4278 
 F-statistic: 5.199 on 13 and 60 DF,  p-value: 4.292e-06</code></pre>
 <p>Using your conclusions from the exploratory data analysis, build a regression model and report your findings.</p>
-<p>We can see that the model isn’t just random and does explain the price in someway, by the p-value on the F-statistic.</p>
+<p>We can see that the model isn't just random and does explain the price in someway, by the p-value on the F-statistic.</p>
 <pre><code>      F-statistic: 5.118 on 13 and 59 DF,  p-value: 5.685e-06.
       </code></pre>
 <p>The model also explains about 53% of the variability in price, using the Multiple R-squared: 0.53. however this is inflated due to the sheer amount of predictors that we are using, looking at the Adjusted R-squared: 0.4264 means that it should only be about 42%.</p>
-<p>We can see that most of the significant predictors depend on the school district and status 3(whether the house is listed). There is also NA values for the agestandardized which makes sense since it’s the same as yearbuilt and adds nothing to the model.</p>
+<p>We can see that most of the significant predictors depend on the school district and status 3(whether the house is listed). There is also NA values for the agestandardized which makes sense since it's the same as yearbuilt and adds nothing to the model.</p>
 <hr />
 </div>
 <div id="model-modification" class="section level1">
@@ -536,7 +536,7 @@ garagesize 2.005255  1        1.416070
 status     1.687671  2        1.139782
 elem       2.841724  5        1.110090</code></pre>
 <ul>
-<li>Using the GVIF^(1/(2*Df)) since elem has 5 coefficients and status has df 2, for all the different factors. There isn’t much multicollinearity between the predictor variables.</li>
+<li>Using the GVIF^(1/(2*Df)) since elem has 5 coefficients and status has df 2, for all the different factors. There isn't much multicollinearity between the predictor variables.</li>
 </ul>
 <pre class="r"><code>model2 &lt;- lm(price ~. -agestandardized -yearbuilt -bath -lot -garagesize, house)
 summary(model2)</code></pre>
@@ -585,7 +585,7 @@ plot(model2)</code></pre>
 1   350  1.44     6     1        2      1956            -1.4          1 act   
 # … with 1 more variable: elem &lt;fct&gt;</code></pre>
 <ul>
-<li>Again we see that this is the house with 6 bedrooms that we decided to keep earlier on. We can see from the plot diagnostics that we aren’t violating any underlying assumptions for linear regression modelling.</li>
+<li>Again we see that this is the house with 6 bedrooms that we decided to keep earlier on. We can see from the plot diagnostics that we aren't violating any underlying assumptions for linear regression modelling.</li>
 </ul>
 <pre class="r"><code>model3 &lt;- lm(price ~. -agestandardized -yearbuilt -bath -lot -garagesize + agestandardized:size, house)
 summary(model3)</code></pre>
@@ -651,8 +651,8 @@ Multiple R-squared:  0.5106,    Adjusted R-squared:  0.4417
 F-statistic: 7.418 on 9 and 64 DF,  p-value: 2.502e-07</code></pre>
 <pre class="r"><code>par(mfrow = c(2,2))
 plot(model4)</code></pre>
-<p><img src="housing_files/figure-html/unnamed-chunk-17-1.png" width="672" /> Here we’ve looked at the interaction term that we thought we be significant earlier from looking at the data. We find out that is it not.</p>
-<p>We applied a transformation on the Y response variable, seeing if it will yield to better plot diagnostics. It doesn’t change much for the most part aside from the residual vs fitted plot being more spread out but curving more drastically.</p>
+<p><img src="housing_files/figure-html/unnamed-chunk-17-1.png" width="672" /> Here we've looked at the interaction term that we thought we be significant earlier from looking at the data. We find out that is it not.</p>
+<p>We applied a transformation on the Y response variable, seeing if it will yield to better plot diagnostics. It doesn't change much for the most part aside from the residual vs fitted plot being more spread out but curving more drastically.</p>
 <pre class="r"><code>model4 &lt;- lm(price ~ elem + status + I(size /100) + bedrooms, house)
 summary(model4)</code></pre>
 <pre><code>
@@ -686,7 +686,7 @@ F-statistic: 6.856 on 9 and 64 DF,  p-value: 7.769e-07</code></pre>
 plot(model4)</code></pre>
 <p><img src="housing_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <ul>
-<li>We applied a transformation on size to see changes in the plot diagnostics. We can see that changes in the predictor variables does not have any affects on it’s significances.</li>
+<li>We applied a transformation on size to see changes in the plot diagnostics. We can see that changes in the predictor variables does not have any affects on it's significances.</li>
 </ul>
 <hr />
 </div>
@@ -726,7 +726,7 @@ plot(modelf)</code></pre>
 <p><img src="housing_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <ul>
 <li><p>After looking at the transformation on the on the response, interaction terms, and some of the predictor variables. We did not find anything compelling that would improve the model from what we already had.</p></li>
-<li><p>The R^2 value is 0.4909 which mean that the model explains about 49% of the variation. Looking at the adjusted R^2 of 0.4193 we’re penalized by the amount of variables in the model.</p></li>
+<li><p>The R^2 value is 0.4909 which mean that the model explains about 49% of the variation. Looking at the adjusted R^2 of 0.4193 we're penalized by the amount of variables in the model.</p></li>
 </ul>
 <pre class="r"><code>confint(modelf, level = .95)</code></pre>
 <pre><code>                2.5 %     97.5 %

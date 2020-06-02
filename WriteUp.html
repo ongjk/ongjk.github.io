@@ -330,14 +330,14 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Breast Cancer and Machine Learning</h1>
 <h4 class="author">Jefferson Ong</h4>
-<h4 class="date">Last compiled: May 09, 2020</h4>
+<h4 class="date">Last compiled: Jun 02, 2020</h4>
 
 </div>
 
 
 <div id="breast-cancer-data-from-coimbra-portugal" class="section level1">
 <h1><span class="header-section-number">1</span> Breast Cancer data from Coimbra, Portugal</h1>
-<p>I’ve looked into a breast cancer dataset taken from <a href="https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Coimbra" class="uri">https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Coimbra</a>. We will be creating predictive models that are able to distinguish between healthy individuals and those who have breast cancer based on 9 predictor variables. These predictors are taken from individual’s blood such as Glucose, Insulin, etc. as well as their age and BMI.</p>
+<p>I've looked into a breast cancer dataset taken from <a href="https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Coimbra" class="uri">https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Coimbra</a>. We will be creating predictive models that are able to distinguish between healthy individuals and those who have breast cancer based on 9 predictor variables. These predictors are taken from individual's blood such as Glucose, Insulin, etc. as well as their age and BMI.</p>
 <div id="eda" class="section level2">
 <h2><span class="header-section-number">1.1</span> EDA</h2>
 <pre class="r"><code>library(caret)
@@ -360,7 +360,7 @@ str(cancer)</code></pre>
  $ MCP.1         : num  417 469 555 928 774 ...
  $ Classification: Factor w/ 2 levels &quot;Healthy&quot;,&quot;Patient&quot;: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
 <ul>
-<li><p>The dataset has no missing values and I’ve changed <code>Classification</code> to a factor where 1 means that they are healthy and 2 means that they are a patient with breast cancer.</p></li>
+<li><p>The dataset has no missing values and I've changed <code>Classification</code> to a factor where 1 means that they are healthy and 2 means that they are a patient with breast cancer.</p></li>
 <li><p>The predictor variables will all be quantitative data with 116 observations.</p></li>
 </ul>
 </div>
@@ -414,8 +414,8 @@ Prediction Healthy Patient
 0.8043478 </code></pre>
 <ul>
 <li><p>After splitting the data, I made a glm model using <code>Classification</code> as the response storign this as <code>mod</code>. We then use this model to predict into to our test dataset we held in reserve. The result of this are probabilities stored in <code>pred</code>.</p></li>
-<li><p>After creating a list of “healthy”, I arbitrary set a 0.5 cutoff for the probabilities in the prediction to say that they are patients. I wanted to see how well my model performed against new data it hasn’t seen before, this is illustrated by the confusion matrix.</p></li>
-<li><p>We can see that overall the model was correct about 80.43% of all cases. The model’s sensitivity of 85% is the true positive rate. It is the proportion of healthy samples that was correctly identified. The model’s specificity of 76.9% is the true negative rate. It is the proportion of patient sample that was correctly identified.</p></li>
+<li><p>After creating a list of &quot;healthy&quot;, I arbitrary set a 0.5 cutoff for the probabilities in the prediction to say that they are patients. I wanted to see how well my model performed against new data it hasn't seen before, this is illustrated by the confusion matrix.</p></li>
+<li><p>We can see that overall the model was correct about 80.43% of all cases. The model's sensitivity of 85% is the true positive rate. It is the proportion of healthy samples that was correctly identified. The model's specificity of 76.9% is the true negative rate. It is the proportion of patient sample that was correctly identified.</p></li>
 </ul>
 </div>
 <div id="roc" class="section level1">
@@ -465,8 +465,8 @@ Resampling results:
 <li>Here we used the <code>trainControl()</code> to use cross validation on our dataset. Earlier we arbitrarily decided to split the dataset 60/40. Now we will run the same test but with 90/10 since we are using 10 folds, arbitrarily. Each fold however is tested on each other to reduce out of sample variance.</li>
 </ul>
 </div>
-<div id="random-forest-vs.glmnet-model" class="section level1">
-<h1><span class="header-section-number">6</span> Random Forest vs. Glmnet model</h1>
+<div id="random-forest-vs.-glmnet-model" class="section level1">
+<h1><span class="header-section-number">6</span> Random Forest vs. Glmnet model</h1>
 <p>We want to now use a non-linear model such as random forest or glmnet in the hopes of having a better AUC. A good thing to note is that we do not have any missing values in the dataset so we can skip preprocessing. Typically cross validation folds of 5 to 10 of the dataset would yield optimal results. We will be using 5x5 repeated cross validation for the both of our models.</p>
 <div id="random-forest-model" class="section level2">
 <h2><span class="header-section-number">6.1</span> Random Forest Model</h2>
@@ -491,7 +491,7 @@ max(model[[&quot;results&quot;]][[&quot;ROC&quot;]])</code></pre>
 </div>
 <div id="direct-comparison" class="section level2">
 <h2><span class="header-section-number">6.3</span> Direct Comparison</h2>
-<p>The previous examples of the models show how each model performed but we may not we sure where the folds were split, so we want to make sure they’re using the same splits. Here we put the models into <code>resamples()</code> to directly compare the model’s performances.</p>
+<p>The previous examples of the models show how each model performed but we may not we sure where the folds were split, so we want to make sure they're using the same splits. Here we put the models into <code>resamples()</code> to directly compare the model's performances.</p>
 <pre class="r"><code>set.seed(7)
 myControl &lt;- trainControl(
   method = &quot;repeatedcv&quot;,

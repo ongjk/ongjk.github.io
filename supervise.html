@@ -11,7 +11,7 @@
 
 <meta name="author" content="Jefferson Ong" />
 
-<meta name="date" content="2020-05-09" />
+<meta name="date" content="2020-06-02" />
 
 <title>Divorce Predictors Data Set</title>
 
@@ -331,22 +331,22 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Divorce Predictors Data Set</h1>
 <h4 class="author">Jefferson Ong</h4>
-<h4 class="date">May 09, 2020</h4>
+<h4 class="date">June 02, 2020</h4>
 
 </div>
 
 
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">1</span> Introduction</h1>
-<p>A study done in Turkey attempts to answer what are the important questions that will lead to a divorce. The dataset can be found in the <a href="https://archive.ics.uci.edu/ml/datasets/Divorce+Predictors+data+set#">UCI Machine Learning Repository</a>. <span class="citation">(“UCI Machine Learning Repository: Divorce Predictors Data Set Data Set” 2020)</span> The paper itself can be found <a href="http://dergipark.org.tr/en/pub/nevsosbilen/issue/46568/549416">here</a>. They used a questionnaire base on Gottman’s approach to couples therapy. It consist of 54 different statements related to marriage such as “I enjoy our holidays with my wife.” or “I’m not the one who’s wrong about problems at home.”. Participants are asked to rate their response as an integer from 0 to 5, presumably 0 for strongly agree and 5 for strongly disagree. They are also classified as either married or divorced, where 0 corresponds to married and 1 corresponds to divorce. <span class="citation">Yöntem et al. (2019)</span></p>
-<p>We will attempt attempt to verify the model accuracy as well as which predictors are significant to discerning whether someone is divorced or not. We will primarily look into the random forest model and use mean decrease inpurity as our metric of importance. Going further we will look at which predictors aren’t important in discerning divorce vs. married.</p>
+<p>A study done in Turkey attempts to answer what are the important questions that will lead to a divorce. The dataset can be found in the <a href="https://archive.ics.uci.edu/ml/datasets/Divorce+Predictors+data+set#">UCI Machine Learning Repository</a>. <span class="citation">(“UCI Machine Learning Repository: Divorce Predictors Data Set Data Set” 2020)</span> The paper itself can be found <a href="http://dergipark.org.tr/en/pub/nevsosbilen/issue/46568/549416">here</a>. They used a questionnaire base on Gottman's approach to couples therapy. It consist of 54 different statements related to marriage such as &quot;I enjoy our holidays with my wife.&quot; or &quot;I'm not the one who's wrong about problems at home.&quot;. Participants are asked to rate their response as an integer from 0 to 5, presumably 0 for strongly agree and 5 for strongly disagree. They are also classified as either married or divorced, where 0 corresponds to married and 1 corresponds to divorce. <span class="citation">Yöntem et al. (2019)</span></p>
+<p>We will attempt attempt to verify the model accuracy as well as which predictors are significant to discerning whether someone is divorced or not. We will primarily look into the random forest model and use mean decrease inpurity as our metric of importance. Going further we will look at which predictors aren't important in discerning divorce vs. married.</p>
 </div>
 <div id="methods" class="section level1">
 <h1><span class="header-section-number">2</span> Methods</h1>
 <div id="data-collection" class="section level2">
 <h2><span class="header-section-number">2.1</span> Data Collection</h2>
 <p>The data was taken at the UCI machine learning repository here: <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/00497/" class="uri">https://archive.ics.uci.edu/ml/machine-learning-databases/00497/</a></p>
-<p>During this time, May 09, 2020, using the <code>R</code> programming language. The machine learning repository needed further citation on the paper. From what it seems, it is indeed the correct paper and dataset as I was able to reproduce most of the code. The researchers conducted face to face interviews and google drive forms to administer the questionnaire. It has no missing values.</p>
+<p>During this time, June 02, 2020, using the <code>R</code> programming language. The machine learning repository needed further citation on the paper. From what it seems, it is indeed the correct paper and dataset as I was able to reproduce most of the code. The researchers conducted face to face interviews and google drive forms to administer the questionnaire. It has no missing values.</p>
 </div>
 <div id="exploratory-analysis" class="section level2">
 <h2><span class="header-section-number">2.2</span> Exploratory Analysis</h2>
@@ -359,7 +359,7 @@ $(document).ready(function () {
 </div>
 <div id="reproducibility" class="section level2">
 <h2><span class="header-section-number">2.4</span> Reproducibility</h2>
-<p>All analysis used in this paper can be reproduced by using the original dataset with RStudio. The <code>R</code> packages use were <code>randomForest</code><span class="citation">(<span class="citeproc-not-found" data-reference-id="cutlerRandomForestBreimanCutler2018"><strong>???</strong></span>)</span>, <code>caret</code> <span class="citation">(<span class="citeproc-not-found" data-reference-id="kuhnCaretPackage"><strong>???</strong></span>)</span>, <code>Yardstick</code> <span class="citation">(<span class="citeproc-not-found" data-reference-id="kuhnYardstickTidyCharacterizations2020"><strong>???</strong></span>)</span>, <code>readxl</code> <span class="citation">(<span class="citeproc-not-found" data-reference-id="ReadxlPackageDocumentation"><strong>???</strong></span>)</span>, <code>tidyverse</code> <span class="citation">(<span class="citeproc-not-found" data-reference-id="wickhamTidyverseEasilyInstall2019"><strong>???</strong></span>)</span>. These libraries must be loaded for the code to work.</p>
+<p>All analysis used in this paper can be reproduced by using the original dataset with RStudio. The <code>R</code> packages use were <code>randomForest</code><span class="citation">(Cutler and Wiener 2018)</span>, <code>caret</code> <span class="citation">(Kuhn 2020)</span>, <code>Yardstick</code> <span class="citation">(Kuhn, Vaughan, and RStudio 2020)</span>, <code>readxl</code> <span class="citation">(“Readxl Package | R Documentation” 2020)</span>, <code>tidyverse</code> <span class="citation">(Wickham and RStudio 2019)</span>. These libraries must be loaded for the code to work.</p>
 </div>
 </div>
 <div id="results" class="section level1">
@@ -425,7 +425,7 @@ Resampling results across tuning parameters:
 
 Accuracy was used to select the optimal model using the largest value.
 The final value used for the model was mtry = 2.</code></pre>
-<p>We moved on to reproduce the paper’s result on random forest accuracy. The paper had 6 predictor variables was the optimal model, we tuned our random forest model with mtry of 6 due to this, which has an accuracy of 0.97, similar value on Table 2. in the paper. This is however not the case for the mtry 54 for the random forest model, where we were able to only achieve an accuracy of 0.96 while the paper’s model achieved 97.64, unsure on the discrepancies.</p>
+<p>We moved on to reproduce the paper's result on random forest accuracy. The paper had 6 predictor variables was the optimal model, we tuned our random forest model with mtry of 6 due to this, which has an accuracy of 0.97, similar value on Table 2. in the paper. This is however not the case for the mtry 54 for the random forest model, where we were able to only achieve an accuracy of 0.96 while the paper's model achieved 97.64, unsure on the discrepancies.</p>
 <pre><code>Confusion Matrix and Statistics
 
           Reference
@@ -488,7 +488,7 @@ Variable importance mode:         none
 Splitrule:                        gini 
 OOB prediction error:             2.35 % </code></pre>
 <p>We compare the simple <code>glm</code> model to the random forest model here on their accuracy onto the test set</p>
-<p>We, then started to look at the mean decrease accuracy for the random forest model using the tuning parameter of gini. Using 2000 trees, we’ve narrowed down the most significant predictors as question 9, 11, 18, 19, 26, and 40. The paper however recorded 2, 6, 11, 18, 26, 40.</p>
+<p>We, then started to look at the mean decrease accuracy for the random forest model using the tuning parameter of gini. Using 2000 trees, we've narrowed down the most significant predictors as question 9, 11, 18, 19, 26, and 40. The paper however recorded 2, 6, 11, 18, 26, 40.</p>
 <pre><code>            0        1 MeanDecreaseAccuracy MeanDecreaseGini
 Atr1 6.013093 4.505396             6.195657       0.41616523
 Atr2 8.552669 1.917795             8.220454       0.32659203
@@ -510,7 +510,7 @@ Atr6             4.327478       0.05818228</code></pre>
 <li>I know we can ignore our differences even if things get though sometimes</li>
 </ol></li>
 <li><ol start="6" style="list-style-type: decimal">
-<li>We don’t have a common time we spent together at home.</li>
+<li>We don't have a common time we spent together at home.</li>
 </ol></li>
 <li><ol start="9" style="list-style-type: decimal">
 <li>I enjoy traveling with my wife.18. My spouse and I have similar ideas about how marriage should be</li>
@@ -525,22 +525,22 @@ Atr6             4.327478       0.05818228</code></pre>
 <li>My spouse and I have similar ideas about how roles should be in marriage</li>
 </ol></li>
 <li><ol start="26" style="list-style-type: decimal">
-<li>I know my spouse’s basic anxieties.</li>
+<li>I know my spouse's basic anxieties.</li>
 </ol></li>
 <li><ol start="40" style="list-style-type: decimal">
-<li>We’re just starting a discussion before I know what’s going on.</li>
+<li>We're just starting a discussion before I know what's going on.</li>
 </ol></li>
 </ul>
 <p>These are the least significant from my model</p>
 <ul>
 <li><ol start="23" style="list-style-type: decimal">
-<li>I know my spouse’s favorite food.</li>
+<li>I know my spouse's favorite food.</li>
 </ol></li>
 <li><ol start="45" style="list-style-type: decimal">
-<li>I’d rather stay silent than discuss with my spouse.</li>
+<li>I'd rather stay silent than discuss with my spouse.</li>
 </ol></li>
 <li><ol start="46" style="list-style-type: decimal">
-<li>Even if I’m right in the discussion, I stay silent to hurt my spouse.</li>
+<li>Even if I'm right in the discussion, I stay silent to hurt my spouse.</li>
 </ol></li>
 <li><ol start="47" style="list-style-type: decimal">
 <li>When I discuss with my spouse, I stay silent because I am afraid of not being able to control my anger.</li>
@@ -549,13 +549,13 @@ Atr6             4.327478       0.05818228</code></pre>
 <li>I feel right in our discussions.</li>
 </ol></li>
 <li><ol start="51" style="list-style-type: decimal">
-<li>I’m not the one who’s wrong about problems at home.</li>
+<li>I'm not the one who's wrong about problems at home.</li>
 </ol></li>
 </ul>
 </div>
 <div id="conclusions" class="section level1">
 <h1><span class="header-section-number">4</span> Conclusions</h1>
-<p>The primary goal of this analysis was to reproduce portions of the paper, while there were similarities in the final models, there were still discrepancies I wasn’t able to reproduce. This is likely due to a tuning parameter or the particular seed used. Of the 6 most significant predictors, we were able to identify 4. Question 11, 18 makes sense intuitively how why those issues are important. Question 26, 40 on the other hand are more suprising as they deal with uncertainty. The least significant predictors also can intuitively understood, for example question 23, a spouse’s favorite food. It would be more perplexing if the model recognized it as significant. The data collecting methods of the researchers isn’t particularly representative of marriage on the otherhand. This particular dataset picked participants ensuring that the marriage participants did not have thoughts of divorce, this could leave out unhappy marriages that do not divorce. Other metrics such as percent of divorce, percent of arrange marriage, etc. would put any predictive answers into question.</p>
+<p>The primary goal of this analysis was to reproduce portions of the paper, while there were similarities in the final models, there were still discrepancies I wasn't able to reproduce. This is likely due to a tuning parameter or the particular seed used. Of the 6 most significant predictors, we were able to identify 4. Question 11, 18 makes sense intuitively how why those issues are important. Question 26, 40 on the other hand are more suprising as they deal with uncertainty. The least significant predictors also can intuitively understood, for example question 23, a spouse's favorite food. It would be more perplexing if the model recognized it as significant. The data collecting methods of the researchers isn't particularly representative of marriage on the otherhand. This particular dataset picked participants ensuring that the marriage participants did not have thoughts of divorce, this could leave out unhappy marriages that do not divorce. Other metrics such as percent of divorce, percent of arrange marriage, etc. would put any predictive answers into question.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1>References</h1>
@@ -563,8 +563,23 @@ Atr6             4.327478       0.05818228</code></pre>
 <div id="ref-arnholtChapterStackOverflow">
 <p>Arnholt, Alan T. 2020. <em>Chapter 3 Stack Overflow Developer Survey | Supervised Learning in R: Case Studies</em>. Accessed April 21. <a href="https://stat-ata-asu.github.io/SupervisedLearningCaseStudies/stack-overflow-developer-survey.html#training-models" class="uri">https://stat-ata-asu.github.io/SupervisedLearningCaseStudies/stack-overflow-developer-survey.html#training-models</a>.</p>
 </div>
+<div id="ref-cutlerRandomForestBreimanCutler2018">
+<p>Cutler, Fortran original by Leo Breiman and Adele, and R. port by Andy Liaw and Matthew Wiener. 2018. <em>randomForest: Breiman and Cutler’s Random Forests for Classification and Regression</em> (version 4.6-14). <a href="https://CRAN.R-project.org/package=randomForest" class="uri">https://CRAN.R-project.org/package=randomForest</a>.</p>
+</div>
+<div id="ref-kuhnCaretPackage">
+<p>Kuhn, Max. 2020. <em>The Caret Package</em>. Accessed April 21. <a href="https://topepo.github.io/caret/index.html" class="uri">https://topepo.github.io/caret/index.html</a>.</p>
+</div>
+<div id="ref-kuhnYardstickTidyCharacterizations2020">
+<p>Kuhn, Max, Davis Vaughan, and RStudio. 2020. <em>Yardstick: Tidy Characterizations of Model Performance</em> (version 0.0.6). <a href="https://CRAN.R-project.org/package=yardstick" class="uri">https://CRAN.R-project.org/package=yardstick</a>.</p>
+</div>
+<div id="ref-ReadxlPackageDocumentation">
+<p>“Readxl Package | R Documentation.” 2020. Accessed April 21. <a href="https://www.rdocumentation.org/packages/readxl/versions/0.1.1" class="uri">https://www.rdocumentation.org/packages/readxl/versions/0.1.1</a>.</p>
+</div>
 <div id="ref-UCIMachineLearning">
 <p>“UCI Machine Learning Repository: Divorce Predictors Data Set Data Set.” 2020. Accessed April 21. <a href="https://archive.ics.uci.edu/ml/datasets/Divorce+Predictors+data+set#" class="uri">https://archive.ics.uci.edu/ml/datasets/Divorce+Predictors+data+set#</a>.</p>
+</div>
+<div id="ref-wickhamTidyverseEasilyInstall2019">
+<p>Wickham, Hadley, and RStudio. 2019. <em>Tidyverse: Easily Install and Load the ’Tidyverse’</em> (version 1.3.0). <a href="https://CRAN.R-project.org/package=tidyverse" class="uri">https://CRAN.R-project.org/package=tidyverse</a>.</p>
 </div>
 <div id="ref-yontemDIVORCEPREDICTIONUSING2019">
 <p>Yöntem, Mustafa Kemal, Kemal Adem, Tahsin İlhan, and Serhat Kiliçarslan. 2019. “DIVORCE PREDICTION USING CORRELATION BASED FEATURE SELECTION AND ARTIFICIAL NEURAL NETWORKS.” <em>Nevşehir Hacı Bektaş Veli Üniversitesi SBE Dergisi</em> 9 (1, 1): 259–73. <a href="http://dergipark.org.tr/en/pub/nevsosbilen/549416" class="uri">http://dergipark.org.tr/en/pub/nevsosbilen/549416</a>.</p>
